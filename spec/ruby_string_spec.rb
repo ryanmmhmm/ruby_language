@@ -97,10 +97,28 @@ RSpec.describe RubyString do
     # more to explore here but concentrate on it later
   end
 
-  xdescribe "string << integer" do
+  describe "string << " do
+    it "can add 'integers' to strings" do
+      string = "string"
+
+      string = string << 1
+
+      expect(string).to eq("string\u0001")
+    end
+
+    it "can concat integer values onto strings as codepoints" do
+      string = "string"
+      other_string = "".concat(105)
+
+      string = string.concat(105)
+
+      expect(other_string).to eq("i")
+      expect(string).not_to eq("string")
+      expect(string).to eq("stringi")
+    end
   end
 
-  xdescribe "string << object" do
+  xdescribe " <=> (saucer method)" do
   end
 
   xdescribe "string == object" do
