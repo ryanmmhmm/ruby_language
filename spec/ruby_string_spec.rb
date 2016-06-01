@@ -330,7 +330,24 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "string.bytes" do
+  describe "string.bytes" do
+    it "returns an array of the bytes of the string" do
+      string = "bytes"
+
+      bytes_array = string.bytes
+
+      expect(bytes_array).to be_a(Array)
+      expect(bytes_array).to eq([98, 121, 116, 101, 115])
+    end
+
+    it "is an alias for .each_byte.to_a, which is a deprecated form" do
+      string = "bytes"
+
+      bytes_array = string.each_byte.to_a
+
+      expect(bytes_array).to be_a(Array)
+      expect(bytes_array).to eq([98, 121, 116, 101, 115])
+    end
   end
 
   xdescribe "bytesize" do
