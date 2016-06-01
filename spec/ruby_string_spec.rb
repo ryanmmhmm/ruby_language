@@ -282,6 +282,24 @@ RSpec.describe RubyString do
       expect(string[regex05]).to eq(".")
       expect(string[regex06]).to eq("'")
     end
+
+    it "will match on strings as well" do
+      string = "there's a Whole lot of words in this string."
+      match = "Whole"
+
+      string_at_index = string[match]
+
+      expect(string_at_index).to eq("Whole")
+    end
+
+    it "but only if they exist" do
+      string = "there's a Whole lot of words in this string."
+      no_match = "zebra"
+
+      string_at_index = string[no_match]
+
+      expect(string_at_index).to be nil
+    end
   end
 
   xdescribe "string ascii_only" do
