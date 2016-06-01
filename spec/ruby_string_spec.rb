@@ -1,7 +1,6 @@
 require 'ruby_string'
 
 RSpec.describe RubyString do
-
   describe "new" do
     it "creates a new instance of string" do
       string1 = String.new
@@ -35,7 +34,28 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "string % /argument" do
+  describe "string \% argument" do
+    # uses kernel::sprintf as per docs, incomplete understanding of this as of now
+
+    it "subs integer input into a string with significant figures" do
+      formatter = "%05d" % 123
+      expect(formatter).to eq("00123")
+    end
+
+    it "can change the length of the output" do
+      formatter = "%09d" % "10"
+      expect(formatter).to eq("000000010")
+    end
+
+    it "can sub in arguments in order" do
+      formatter = "%-5s: %08x" % [ "ID", 1234 ]
+      expect(formatter).to eq("ID   : 000004d2")
+    end
+
+    it "can sub in defined values" do
+      formatter = "hash[:key] = %{key}" % { key: "value" }
+      expect(formatter).to eq("hash[:key] = value")
+    end
   end
 
   xdescribe "string * integer" do
