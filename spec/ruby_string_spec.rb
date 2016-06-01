@@ -11,7 +11,28 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "try_convert" do
+  describe "try_convert" do
+    it "trys to convert an object into a string" do
+      object = RubyString.new
+      array = Array.new
+      hash = Hash.new
+
+      convert_object = String.try_convert(object)
+      convert_array = String.try_convert(array)
+      convert_hash = String.try_convert(hash)
+
+      expect(convert_object).to be nil
+      expect(convert_array).to be nil
+      expect(convert_hash).to be nil
+    end
+
+    it "successfully converts an object to a string" do
+      object = "hello world"
+
+      conversion = String.try_convert(object)
+
+      expect(conversion).to eq("hello world")
+    end
   end
 
   xdescribe "string % /argument" do
