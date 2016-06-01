@@ -269,6 +269,8 @@ RSpec.describe RubyString do
       regex05 = /\./           # what's the difference between these two?!
       regex06 = /[']/          # what's the difference between these two?!
 
+      regex07 = /(?<vowel>[aeiou])(?<not_vowel>[^aeiou])/  # finds first match after not-vowel
+
       ## ..... This has turned into a regex deep-dive.  Aborting for now but will make a regex_spec.rb at some point.
       ## Too interesting not to.
 
@@ -281,6 +283,7 @@ RSpec.describe RubyString do
       expect(string[regex04]).to eq("A")
       expect(string[regex05]).to eq(".")
       expect(string[regex06]).to eq("'")
+      expect(string[regex07, "not_vowel"]).to eq("r")
     end
 
     it "will match on strings as well" do
