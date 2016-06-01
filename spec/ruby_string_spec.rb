@@ -2,7 +2,13 @@ require 'ruby_string'
 
 RSpec.describe RubyString do
 
-  xdescribe "new" do
+  describe "new" do
+    it "creates a new instance of string" do
+      string1 = String.new
+      string2 = String.new
+
+      expect(string1.object_id).not_to eq(string2.object_id)
+    end
   end
 
   xdescribe "try_convert" do
