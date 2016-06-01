@@ -68,7 +68,22 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "string + other_string" do
+  describe "string + other_string" do
+    it "concats two strings together" do
+      first = "first"
+      space = " "
+      second = "second"
+
+      string = first + space + second
+
+      expect(string).to eq("first second")
+    end
+
+    let(:bad_concat) { "first" + " " + 1 }
+
+    it "cannot concat a string and a non-string" do
+      expect{ bad_concat }.to raise_error(TypeError, /no implicit conversion of Fixnum into String/)
+    end
   end
 
   xdescribe "mutable strings" do
