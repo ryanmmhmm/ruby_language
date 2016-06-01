@@ -58,7 +58,14 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "string * integer" do
+  describe "string * integer" do
+    it "multiplies the content of a string" do
+      string = "Three"
+
+      string_multiplier = string * 3
+
+      expect(string_multiplier).to eq("ThreeThreeThree")
+    end
   end
 
   xdescribe "string + other_string" do
