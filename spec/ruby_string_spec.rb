@@ -86,7 +86,15 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "mutable strings" do
+  describe "mutable and immutable strings" do
+    it "frozen strings can't be modified" do
+      frozen_string = "I'm frozen!".freeze
+
+      expect(frozen_string.frozen?).to be true
+      expect{ frozen_string << "some chars" }.to raise_error(RuntimeError, /can't modify frozen String/)
+    end
+
+    # more to explore here but concentrate on it later
   end
 
   xdescribe "frozen strings" do
