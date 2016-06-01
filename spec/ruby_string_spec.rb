@@ -180,7 +180,36 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "string =~ object" do
+  describe "string =~ object" do
+    it "it returns the index of the string for the first match with a regex" do
+      string = "where am I mr. regex?"
+
+      match = string =~ /mr./
+
+      expect(match).to eq(11)
+    end
+
+    it "doesn't like integers, sorry" do
+      string = "where am I mr. integer?"
+
+      match = string =~ 9
+
+      expect(match).to be nil
+    end
+
+    it "...even if there are integers" do
+      string = "1234567890"
+
+      match = string =~ 9
+
+      expect(match).to be nil
+    end
+
+    it "pukes when it sees a string" do
+      string = "where am I mr. capital letter?"
+
+      expect{ match = string =~ "I" }.to raise_error(TypeError,/type mismatch: String given/)
+    end
   end
 
   xdescribe "string[things]" do
