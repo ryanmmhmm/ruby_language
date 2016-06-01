@@ -212,7 +212,76 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "string[things]" do
+  describe "string[things]" do
+    it "finds the value at an index within the string" do
+      string = "there's a Whole lot of words in this string."
+      index = 10
+
+      string_at_index = string[index]
+
+      expect(string_at_index).to eq("W")
+    end
+
+    it "doesn't know what you're talking about when you try to find an index outside of the string" do
+      string = "there's a Whole lot of words in this string."
+      index = 9001
+
+      string_at_index = string[index]
+
+      expect(string_at_index).to be nil
+    end
+
+    it "goes to the back when you give it a negative number" do
+      string = "there's a Whole lot of words in this string."
+      index = -1
+
+      string_at_index = string[index]
+
+      expect(string_at_index).to eq(".")
+    end
+
+    it "will give you back a section if you ask nicely" do
+      string = "there's a Whole lot of words in this string."
+      index = 10
+      length = 5
+
+      string_at_index = string[index, length]
+
+      expect(string_at_index).to eq("Whole")
+    end
+
+    it "it speaks different languages for sections as well" do
+      string = "there's a Whole lot of words in this string."
+      range = (10...15)
+
+      string_at_index = string[range]
+
+      expect(string_at_index).to eq("Whole")
+    end
+
+    it "will accept a regex" do
+      string = "there's A Whole Lot oF words in this string. ```!"  # note chars with one instance are capitalized
+      regex = /(Whole)/        # find all of Whole (subexpression)
+      regex01 = /(LOFT)/       # LOFT doesn't exist (subexpression)
+      regex02 = /[^there's ]/  # literally -not "there's "- returns what comes after it (exclusive, order dependent)
+      regex03 = /[A]/          # finds the character then returns it
+      regex04 = /[LAW]/        # finds the first occurence in the set and returns it
+      regex05 = /\./           # what's the difference between these two?!
+      regex06 = /[']/          # what's the difference between these two?!
+
+      ## ..... This has turned into a regex deep-dive.  Aborting for now but will make a regex_spec.rb at some point.
+      ## Too interesting not to.
+
+      string_at_index = string[regex]
+
+      expect(string_at_index).to eq("Whole")
+      expect(string[regex01]).to be nil
+      expect(string[regex02]).to eq("A")
+      expect(string[regex03]).to eq("A")
+      expect(string[regex04]).to eq("A")
+      expect(string[regex05]).to eq(".")
+      expect(string[regex06]).to eq("'")
+    end
   end
 
   xdescribe "string ascii_only" do
