@@ -305,7 +305,11 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "string ascii_only" do
+  describe "string ascii_only?" do
+    it "not sure if i care about this right now, might be useful for translations" do
+      expect("abc".force_encoding("UTF-8").ascii_only?).to be true
+      expect("abc\u{6666}".force_encoding("UTF-8").ascii_only?).to be false
+    end
   end
 
   xdescribe "string.b" do
