@@ -118,7 +118,18 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe " <=> (saucer method)" do
+  describe " <=> (saucer method)" do
+    it "compares two strings together and returns a relative value" do
+      string1 = "asdf"
+      string2 = "asd"
+      integer = 1
+
+      expect(string1 <=> string1).to eq(0) #=> 0 means equal
+      expect(string1 <=> string2).to eq(1) #=> 1 means left is greater-than right
+      expect(string2 <=> string1).to eq(-1) #=> -1 means left is less-than right
+      expect(string2 <=> string2).to eq(0) #=> 0 means equal
+      expect(string1 <=> integer).to be nil #=> apples and oranges
+    end
   end
 
   xdescribe "string == object" do
