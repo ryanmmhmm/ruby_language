@@ -132,7 +132,26 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "string == object" do
+  describe "string == object" do
+    it "compares equality of two strings" do
+      string = "hello"
+
+      expect(string == string).to be true
+    end
+
+    it "compares equality of two strings" do
+      string = "hello"
+      string2 = "goodbye"
+
+      expect(string == string2).to be false
+    end
+
+    it "compares equality of a string and an object that responds to .to_str" do
+      string = "hello"
+      array = ["hello"]
+
+      expect(string == array).to be false
+    end
   end
 
   xdescribe "string === object" do
