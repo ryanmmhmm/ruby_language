@@ -312,7 +312,22 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "string.b" do
+  describe "string.b" do
+    it "returns a copied string" do
+      string = "string"
+      expect(string.b.object_id).not_to eq(string.object_id)
+    end
+
+    it "returns a string whose encoding is ACII-8BIT" do
+      encoded_string = "string".encode("UTF-8")
+
+      ascii_string = encoded_string.b
+
+      expect(ascii_string.encoding).to eq(Encoding::ASCII_8BIT)
+      expect(encoded_string.encoding).to eq(Encoding::UTF_8)
+      expect(encoded_string).not_to be ascii_string   # essentially explains what's going on above but less explicitly
+      expect(encoded_string).to eq(ascii_string)      # this works becase the _content_ of each string is the same
+    end
   end
 
   xdescribe "string.bytes" do
