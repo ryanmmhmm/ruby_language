@@ -97,9 +97,6 @@ RSpec.describe RubyString do
     # more to explore here but concentrate on it later
   end
 
-  xdescribe "frozen strings" do
-  end
-
   xdescribe "string << integer" do
   end
 
