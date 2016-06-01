@@ -154,7 +154,30 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "string === object" do
+  describe "string === object" do
+    it "compares equality of two strings" do
+      string = "hello"
+      string2 = "hello"
+
+      expect(string === string).to be true
+    end
+
+    it "compares equality of a string and an object" do
+      class SomeObject
+        def to_str
+          "some string message"
+        end
+      end
+
+      expect("here's some string message" === "here's " + SomeObject.new).to be true
+    end
+
+    it "demonstrates that to_str is not defined on any objects normally (that I know of at least), but is the default method call for string conversions" do
+      class ObjectWithoutToStr
+      end
+
+      expect{ combine = "pls " + ObjectWithoutToStr.new }.to raise_error(TypeError, /no implicit conversion of ObjectWithoutToStr into String/)
+    end
   end
 
   xdescribe "string =~ object" do
