@@ -613,7 +613,14 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "clear" do
+  describe "clear" do
+    it "empties the contents of a string" do
+      string = "string"
+
+      cleared_string = string.clear
+
+      expect(cleared_string).to eq("")
+    end
   end
 
   xdescribe "codepoints" do
