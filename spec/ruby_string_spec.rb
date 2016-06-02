@@ -852,7 +852,22 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "empty?" do
+    describe "empty?" do
+      it "returns true if a string is empty" do
+        string = ""
+
+        is_it_empty = string.empty?
+
+        expect(is_it_empty).to be true
+      end
+
+      it "returns false if a string is not empty" do
+        string = "i'm not empty!"
+
+        is_it_empty = string.empty?
+
+        expect(is_it_empty).to be false
+      end
     end
 
     xdescribe "encode" do
