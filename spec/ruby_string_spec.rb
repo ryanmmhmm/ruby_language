@@ -392,7 +392,33 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "capitalize" do
+  describe "capitalize" do
+    it "returns the humanized version of the string with the first letter being capitalized" do
+      hello = "hello"
+      goodbye = "GOODBYE"
+      no_change = "No change"
+
+      expect(hello.capitalize).to eq("Hello")
+      expect(goodbye.capitalize).to eq("Goodbye")
+      expect(no_change.capitalize).to eq("No change")
+    end
+
+    it "capitalize! mutates the original string" do
+      unmutated = "unmutated"
+      mutated = "mutated"
+
+      unmutated.capitalize
+      mutated.capitalize!
+
+      expect(unmutated).to eq("unmutated")
+      expect(mutated).to eq("Mutated")
+    end
+
+    it "only works within the ASCII region of characters" do
+      string = "é"
+
+      expect(string.capitalize).to eq("é")
+    end
   end
 
   xdescribe "casecmp" do
