@@ -1228,7 +1228,22 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "lstrp" do
+    describe "lstrp (left strip)" do
+      it "strips the white space from the left side of a string" do
+        string_with_whitespace = "          string  "
+
+        string = string_with_whitespace.lstrip
+
+        expect(string).to eq("string  ")
+      end
+
+      it "lstrip! mutates the string in place" do
+        string_with_whitespace = "          string  "
+
+        string_with_whitespace.lstrip!
+
+        expect(string_with_whitespace).to eq("string  ")
+      end
     end
 
     xdescribe "match" do
