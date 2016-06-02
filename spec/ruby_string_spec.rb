@@ -1135,7 +1135,14 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "inspect" do
+    describe "inspect" do
+      it "returns a printable version of string, surrounded by quites and with special chars escaped" do
+        string = "this string that you see\nis a bad kind of haiku\ni'm still not famous"
+
+        inspected_string = string.inspect
+
+        expect(inspected_string).to eq("\"this string that you see\\nis a bad kind of haiku\\ni'm still not famous\"")
+      end
     end
 
     xdescribe "intern" do
