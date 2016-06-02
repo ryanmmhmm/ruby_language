@@ -362,7 +362,34 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "byteslice" do
+  describe "byteslice" do
+    it "slices the string on index of bytes" do
+      string = "string"
+
+      byte_slice = string.byteslice(1)
+      bigger_slice = string.byteslice(3,4)
+
+      expect(byte_slice).to eq("t")
+      expect(bigger_slice).to eq("ing")  # not directly sure why this slice reveals 3 chars.  learn more about bytes in strings.
+    end
+
+    it "slices the string on index of bytes, if the string is bytes" do
+      string = "\x80\u3042"
+
+      byte_slice = string.byteslice(0)
+      byte_slice2 = string.byteslice(1,3)
+
+      expect(byte_slice).to eq("\x80")
+      expect(byte_slice2).to eq("\u3042")
+    end
+
+    it "can use a range as well" do
+      string = "\x80\u3042"
+
+      byte_slice = string.byteslice(1..3)
+
+      expect(byte_slice).to eq("\u3042")
+    end
   end
 
   xdescribe "capitalize" do
