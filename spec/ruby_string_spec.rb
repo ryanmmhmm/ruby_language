@@ -874,7 +874,11 @@ RSpec.describe RubyString do
       # encodes things and gives you information about it
     end
 
-    xdescribe "encoding" do
+    describe "encoding" do
+      it "returns the Encoding type" do
+        utf_8_string = "I'm UTF-8!".force_encoding(Encoding::UTF_8)
+        expect(utf_8_string.encoding).to be Encoding::UTF_8
+      end
     end
 
     xdescribe "end_with?" do
