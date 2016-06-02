@@ -421,7 +421,18 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "casecmp" do
+  describe "casecmp" do
+    it "compares strings, ignoring case sensitivity" do
+      string = "string"
+      string1 = "string1"
+      string2 = "StRiNg"
+      string3 = "STRING"
+
+      expect(string.casecmp(string1)).to eq(-1)
+      expect(string1.casecmp(string)).to eq(1)
+      expect(string.casecmp(string2)).to eq(0)
+      expect(string.casecmp(string3)).to eq(0)
+    end
   end
 
   xdescribe "center" do
