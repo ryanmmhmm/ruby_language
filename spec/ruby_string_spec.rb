@@ -354,7 +354,7 @@ RSpec.describe RubyString do
         expect(string.b.object_id).not_to eq(string.object_id)
       end
 
-      it "returns a string whose encoding is ACII-8BIT" do
+      it "returns a string whose encoding is ASCII-8BIT" do
         encoded_string = "string".encode("UTF-8")
 
         ascii_string = encoded_string.b
@@ -944,7 +944,14 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "force_encoding" do
+    describe "force_encoding" do
+      it "forces the encoding of a string to be of type specified" do
+        utf_8_string = "i'm UTF-8".force_encoding("UTF-8")
+        ascii_string = "i'm ASCII".force_encoding("ASCII-8BIT")
+
+        expect(utf_8_string.encoding).to be Encoding::UTF_8
+        expect(ascii_string.encoding).to be Encoding::ASCII_8BIT
+      end
     end
 
     xdescribe "freeze" do
