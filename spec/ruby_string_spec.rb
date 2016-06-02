@@ -881,7 +881,38 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "end_with?" do
+    describe "end_with?" do
+      it "returns true if the string ends with the value provided" do
+        string = "string"
+
+        match = string.end_with?("ing")
+
+        expect(match).to be true
+      end
+
+      it "returns false if the string does not end with the value provided" do
+        string = "string"
+
+        match = string.end_with?("bees")
+
+        expect(match).to be false
+      end
+
+      it "accepts multiple suffixes and returns true if one or more matches" do
+        string = "string"
+
+        match = string.end_with?("bees", "honey", "ing", "ng", "g")
+
+        expect(match).to be true
+      end
+
+      it "accepts multiple suffixes and returns false if none match" do
+        string = "string"
+
+        match = string.end_with?("bees", "honey", "bear")
+
+        expect(match).to be false
+      end
     end
 
     xdescribe "eql?" do
