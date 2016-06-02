@@ -871,6 +871,7 @@ RSpec.describe RubyString do
     end
 
     xdescribe "encode" do
+      # encodes things and gives you information about it
     end
 
     xdescribe "encoding" do
