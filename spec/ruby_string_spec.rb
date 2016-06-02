@@ -954,7 +954,27 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "freeze" do
+    describe "freeze" do
+      it "prevents strings from being modified" do
+        string = "freeze me"
+
+        expect(string.frozen?).to be false
+
+        frozen_string = string.freeze
+
+        expect{ frozen_string << " <ice pick;;;==O" }.to raise_error(RuntimeError, /can't modify frozen String/)
+      end
+
+      it "does not prevent strings from being modified if they are reassigned" do
+        string = "freeze me"
+
+        expect(string.frozen?).to be false
+
+        frozen_string = string.freeze
+        frozen_string = "i've thawed"
+
+        expect(frozen_string << " <ice pick;;;==O").to eq("i've thawed <ice pick;;;==O")
+      end
     end
 
     xdescribe "getbyte" do
