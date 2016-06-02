@@ -1185,7 +1185,24 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "lines" do
+    describe "lines" do
+      it "is a short-hand for String#each_line.to_a" do
+        string = "lots\nof\nnew\nlines"
+
+        enumerated = []
+        string.lines { |new_line| enumerated << new_line }
+
+        expect(enumerated).to eq(["lots\n", "of\n", "new\n", "lines"])
+      end
+
+      it "returns an Array object if no block is given" do
+        string = "lots\nof\nnew\nlines"
+
+        enumerated = string.lines
+
+        expect(enumerated).to be_a(Array)
+        expect(enumerated).to eq(["lots\n", "of\n", "new\n", "lines"])
+      end
     end
 
     xdescribe "ljust" do
