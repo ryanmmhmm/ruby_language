@@ -1038,7 +1038,20 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "hex" do
+    describe "hex" do
+      it "converts a 'hex' string into an integer" do
+        hex_string_representation = "0x08"
+        hex_string_representation1 = "08"
+        hex_string_representation2 = "0xaf"
+
+        integer = hex_string_representation.hex
+        integer1 = hex_string_representation1.hex
+        integer2 = hex_string_representation2.hex
+
+        expect(integer).to eq(8)
+        expect(integer1).to eq(8)
+        expect(integer2).to eq(175)
+      end
     end
 
     xdescribe "include?" do
