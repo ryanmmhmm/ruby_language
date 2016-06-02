@@ -623,7 +623,14 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "codepoints" do
+  describe "codepoints" do
+    it "returns an array of integer ordinals" do
+      string = "string"
+
+      codepoints = string.codepoints
+
+      expect(codepoints).to eq([115, 116, 114, 105, 110, 103])
+    end
   end
 
   xdescribe "concat" do
