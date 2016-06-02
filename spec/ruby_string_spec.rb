@@ -702,6 +702,7 @@ RSpec.describe RubyString do
     end
 
     xdescribe "crypt" do
+      # makes a cryptographic hash with a salt
     end
 
     xdescribe "delete" do
