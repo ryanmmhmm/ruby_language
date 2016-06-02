@@ -793,7 +793,24 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "each_char" do
+    describe "each_char" do
+      it "enumerates on each character of the string" do
+        string = "lots of characters"
+        string_array = string.split('')
+
+        array = []
+        enumerated = string.each_char { |c| array << c }
+
+        expect(array).to eq(string_array)
+      end
+
+      it "returns an enumerator object if empty" do
+        string = ""
+
+        enumerated = string.each_char
+
+        expect(enumerated).to be_a(Enumerator)
+      end
     end
 
     xdescribe "each_codepoint" do
