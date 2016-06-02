@@ -833,7 +833,23 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "each_line" do
+    describe "each_line" do
+      it "enumerates on each new line of the string" do
+        string = "lots\nof\nnew\nlines"
+
+        enumerated = []
+        string.each_line { |new_line| enumerated << new_line }
+
+        expect(enumerated).to eq(["lots\n", "of\n", "new\n", "lines"])
+      end
+
+      it "returns an enumerator object if empty" do
+        string = ""
+
+        enumerated = string.each_line
+
+        expect(enumerated).to be_a(Enumerator)
+      end
     end
 
     xdescribe "empty?" do
