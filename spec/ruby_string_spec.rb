@@ -476,7 +476,7 @@ RSpec.describe RubyString do
       expect(max_centered_string).to eq("     centered     ")
     end
 
-    it "you can customize your padding!" do
+    it "can customize the padding!" do
       string = "custom"    # 6 chars long
       padding_length = 18
       padding_type_1 = "*"
@@ -493,7 +493,14 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "chars" do
+  describe "chars" do
+    it "returns an Array of characters" do
+      string = "string"
+
+      chars = string.chars
+
+      expect(chars).to eq(["s","t","r","i","n","g"])
+    end
   end
 
   xdescribe "chomp" do
