@@ -705,7 +705,44 @@ RSpec.describe RubyString do
       # makes a cryptographic hash with a salt
     end
 
-    xdescribe "delete" do
+    describe "delete" do
+      it "removes all the desired value(s) from a string" do
+        hello = "hello"
+
+        deleted = hello.delete("l")
+
+        expect(deleted).to eq("heo")
+      end
+
+      it "removes a range of chars" do
+        hello = "hello"
+
+        deleted = hello.delete("a-z")
+
+        expect(deleted).to eq("")
+      end
+
+      it "removes all characters intersecting between the two sets (like String#count)" do
+        alphabet = "abcdefg"
+
+        deleted = alphabet.delete("cdef", "defg")
+        deleted_2 = alphabet.delete("abcdefg", "^cd")     # lookin' kinda regex-y to me!
+        deleted_3 = alphabet.delete("a-z")
+        deleted_4 = alphabet.delete("a-z", "^def")        # lookin' kinda regex-y to me!
+
+        expect(deleted).to eq("abcg")
+        expect(deleted_2).to eq("cd")
+        expect(deleted_3).to eq("")
+        expect(deleted_4).to eq("def")
+      end
+
+      it "delete! mutates the string in place" do
+        hello = "hello"
+
+        hello.delete!("a-z")
+
+        expect(hello).to eq("")
+      end
     end
 
     xdescribe "downcase" do
