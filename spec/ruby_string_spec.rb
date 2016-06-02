@@ -1168,9 +1168,6 @@ RSpec.describe RubyString do
     xdescribe "length" do
     end
 
-    xdescribe "length" do
-    end
-
     xdescribe "lines" do
     end
 
