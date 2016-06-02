@@ -785,7 +785,7 @@ RSpec.describe RubyString do
       end
 
       it "returns an enumerator object if empty" do
-        string = ""
+        string = "lots of bytes"
 
         enumerated = string.each_byte
 
@@ -805,7 +805,7 @@ RSpec.describe RubyString do
       end
 
       it "returns an enumerator object if empty" do
-        string = ""
+        string = "lots of characters"
 
         enumerated = string.each_char
 
@@ -825,7 +825,7 @@ RSpec.describe RubyString do
       end
 
       it "returns an enumerator object if empty" do
-        string = ""
+        string = "lots of characters"
 
         enumerated = string.each_codepoint
 
@@ -844,7 +844,7 @@ RSpec.describe RubyString do
       end
 
       it "returns an enumerator object if empty" do
-        string = ""
+        string = "lots\nof\nnew\nlines"
 
         enumerated = string.each_line
 
