@@ -12,6 +12,12 @@ RSpec.describe RubyString do
 
   describe "try_convert" do
     it "trys to convert an object into a string" do
+      class RubyString
+        def to_str
+          "RubyString"
+        end
+      end
+
       object = RubyString.new
       array = Array.new
       hash = Hash.new
@@ -20,7 +26,7 @@ RSpec.describe RubyString do
       convert_array = String.try_convert(array)
       convert_hash = String.try_convert(hash)
 
-      expect(convert_object).to be nil
+      expect(convert_object).to eq("RubyString")
       expect(convert_array).to be nil
       expect(convert_hash).to be nil
     end
