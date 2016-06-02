@@ -915,7 +915,33 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "eql?" do
+    describe "eql?" do
+      it "determines if two strings are equal by length and content" do
+        string1 = "string"
+        string2 = "string"
+
+        match = string1.eql?(string2)
+
+        expect(match).to be true
+      end
+
+      it "tells you if they aren't" do
+        string1 = "string"
+        string2 = "string "
+
+        match = string1.eql?(string2)
+
+        expect(match).to be false
+      end
+
+      it "case sensitivity matters here" do
+        string1 = "string"
+        string2 = "STRING"
+
+        match = string1.eql?(string2)
+
+        expect(match).to be false
+      end
     end
 
     xdescribe "force_encoding" do
