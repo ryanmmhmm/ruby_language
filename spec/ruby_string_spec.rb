@@ -118,17 +118,42 @@ RSpec.describe RubyString do
     end
   end
 
-  describe " <=> (saucer method)" do
+  describe " <=> (saucer operator)" do
     it "compares two strings together and returns a relative value" do
-      string1 = "asdf"
-      string2 = "asd"
+      all_caps = "ASDF"
+      lower_case = "asdf"
+      shorter = "asd"
       integer = 1
 
-      expect(string1 <=> string1).to eq(0) #=> 0 means equal
-      expect(string1 <=> string2).to eq(1) #=> 1 means left is greater-than right
-      expect(string2 <=> string1).to eq(-1) #=> -1 means left is less-than right
-      expect(string2 <=> string2).to eq(0) #=> 0 means equal
-      expect(string1 <=> integer).to be nil #=> apples and oranges
+      expect(all_caps <=> lower_case).to eq(-1) #=> ASDF < asdf
+      expect(lower_case <=> all_caps).to eq(1) #=> asdf > ASDF
+      expect(lower_case <=> lower_case).to eq(0) #=> asdf == asdf
+      expect(lower_case <=> shorter).to eq(1) #=> asdf > asd
+      expect(shorter <=> lower_case).to eq(-1) #=> asd < asdf
+      expect(shorter <=> shorter).to eq(0) #=> asd == asd
+      expect(lower_case <=> integer).to be nil #=> apples and oranges
+    end
+
+    it "operates on the byte values of the strings" do
+      all_caps = "ASDF"
+      all_caps_backwards = "FDSA"
+      lower_case = "asdf"
+      lower_case_backwards = "fdas"
+
+      sum_all_caps = all_caps.bytes.reduce(:+)
+      sum_all_caps_backwards = all_caps_backwards.bytes.reduce(:+)
+      sum_lower_case = lower_case.bytes.reduce(:+)
+      sum_lower_case_backwards = lower_case_backwards.bytes.reduce(:+)
+
+      expect(sum_all_caps).to eq(286)
+      expect(sum_all_caps_backwards).to eq(286)
+      expect(sum_lower_case).to eq(414)
+      expect(sum_lower_case_backwards).to eq(414)
+
+      expect(sum_all_caps <=> sum_all_caps_backwards).to eq(0)
+      expect(sum_lower_case <=> sum_lower_case_backwards).to eq(0)
+      expect(sum_all_caps <=> sum_lower_case).to eq(-1)
+      expect(sum_lower_case <=> sum_all_caps ).to eq(1)
     end
   end
 
