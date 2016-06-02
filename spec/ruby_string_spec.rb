@@ -1027,7 +1027,15 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "hash" do
+    describe "hash" do
+      it "returns a hash based on the strings content, length and encoding" do
+        math_hash = "string".hash       #  these ain't your key-value pair kind hashes
+        math_hash2 = "string".hash
+
+        expect(math_hash).to be_a(Fixnum)
+        expect(math_hash == math_hash2).to be true
+        expect(math_hash <=> math_hash2).to eq(0)
+      end
     end
 
     xdescribe "hex" do
