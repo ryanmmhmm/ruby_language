@@ -773,7 +773,24 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "each_byte" do
+    describe "each_byte" do
+      it "enumerates on each byte of the string" do
+        string = "lots of bytes"
+        string_bytes = string.bytes
+
+        array = []
+        enumerated = string.each_byte { |b| array << b }
+
+        expect(array).to eq(string_bytes)
+      end
+
+      it "returns an enumerator object if empty" do
+        string = ""
+
+        enumerated = string.each_byte
+
+        expect(enumerated).to be_a(Enumerator)
+      end
     end
 
     xdescribe "each_char" do
