@@ -977,7 +977,16 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "getbyte" do
+    describe "getbyte" do
+      it "returns the indexth byte as an integer" do
+        string = "string"
+        byte_value = "t".bytes.first
+
+        byteiger = string.getbyte(1)
+
+        expect(byteiger).to eq(116)
+        expect(byteiger).to eq(byte_value)
+      end
     end
 
     xdescribe "gsub" do
