@@ -778,10 +778,10 @@ RSpec.describe RubyString do
         string = "lots of bytes"
         string_bytes = string.bytes
 
-        array = []
-        enumerated = string.each_byte { |b| array << b }
+        enumerated = []
+        string.each_byte { |b| enumerated << b }
 
-        expect(array).to eq(string_bytes)
+        expect(enumerated).to eq(string_bytes)
       end
 
       it "returns an enumerator object if empty" do
@@ -798,10 +798,10 @@ RSpec.describe RubyString do
         string = "lots of characters"
         string_array = string.split('')
 
-        array = []
-        enumerated = string.each_char { |c| array << c }
+        enumerated = []
+        string.each_char { |c| enumerated << c }
 
-        expect(array).to eq(string_array)
+        expect(enumerated).to eq(string_array)
       end
 
       it "returns an enumerator object if empty" do
@@ -816,8 +816,7 @@ RSpec.describe RubyString do
     describe "each_codepoint" do
       it "enumerates on each character of the string as an ordinal" do
         string = "lots of characters"
-        ordinal_array = string.split('')
-        ordinal_array = ordinal_array.map.each { |c| c = c.ord }
+        ordinal_array = string.split('').map.each { |c| c = c.ord }
 
         enumerated = []
         string.each_codepoint { |c| enumerated << c }
