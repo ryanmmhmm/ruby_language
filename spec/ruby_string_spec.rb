@@ -745,7 +745,22 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "downcase" do
+    describe "downcase" do
+      it "makes all characters lowercase" do
+        upper_case = "WHOAAAAAH!!!"
+
+        lower_case = upper_case.downcase
+
+        expect(lower_case).to eq("whoaaaaah!!!")
+      end
+
+      it "downcase! mutates the string in place" do
+        upper_case = "WHOAAAAAH!!!"
+
+        upper_case.downcase!
+
+        expect(upper_case).to eq("whoaaaaah!!!")
+      end
     end
 
     xdescribe "dump" do
