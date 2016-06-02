@@ -763,7 +763,14 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "dump" do
+    describe "dump" do
+      it "produces a version of the string with all non-printing characters replaced by \\nnn notation and all special characters escaped." do
+        string_with_things = "hello \n ''"
+
+        dumped_string = string_with_things.dump
+
+        expect(dumped_string).to eq("\"hello \\n ''\"")
+      end
     end
 
     xdescribe "each_byte" do
