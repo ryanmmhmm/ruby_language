@@ -350,7 +350,16 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "bytesize" do
+  describe "bytesize" do
+    it "returns the length in number of bytes" do
+      length_5 = "hello"
+      expect(length_5.bytesize).to eq(5)
+    end
+
+    it "it even does it when it's bytes" do
+      byte_string = "\x80\u3042"
+      expect(byte_string.bytesize).to eq(4)
+    end
   end
 
   xdescribe "byteslice" do
