@@ -503,7 +503,54 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "chomp" do
+  describe "chomp" do
+    it "removes the last record separator from a string (like \\n for new line)" do
+      string = "end of string\n"
+
+      chomped = string.chomp
+
+      expect(chomped).to eq("end of string")
+    end
+
+    it "will only remove one of them by default" do
+      string = "end of string\n\n"
+
+      chomped = string.chomp
+
+      expect(chomped).to eq("end of string\n")
+    end
+
+    it "will only remove two if you ask it to" do
+      string = "end of string\n\r\n"
+
+      chomped = string.chomp("\n\r\n")
+
+      expect(chomped).to eq("end of string")
+    end
+
+    it "can also take a bigger bite off of the end" do
+      string = "end of string\n\n"
+
+      chomped = string.chomp("string\n\n")
+
+      expect(chomped).to eq("end of ")
+    end
+
+    it "isn't very smart about how it removes things" do
+      string = "end of string\n\r\n"
+
+      chomped = string.chomp("\n\n")
+
+      expect(chomped).to eq("end of string\n\r\n")
+    end
+
+    it "unless you give it ('') to chew on" do
+      string = "end of string\n\r\n"
+
+      chomped = string.chomp("")
+
+      expect(chomped).to eq("end of string")
+    end
   end
 
   xdescribe "chomp!" do
