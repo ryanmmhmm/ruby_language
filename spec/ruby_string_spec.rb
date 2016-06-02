@@ -1165,7 +1165,24 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "length" do
+    describe "length" do
+      it "returns the length of the string as an integer" do
+        string = "length"
+
+        length = string.length
+
+        expect(length).to be_a(Fixnum)
+        expect(length).to eq(6)
+      end
+
+      it "returns the length of the string as an integer even with escaped chars" do
+        string = "length\n\r\n"
+
+        length = string.length
+
+        expect(length).to be_a(Fixnum)
+        expect(length).to eq(9)
+      end
     end
 
     xdescribe "lines" do
