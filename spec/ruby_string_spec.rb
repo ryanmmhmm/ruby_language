@@ -1112,7 +1112,15 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "replace" do
+    describe "replace" do
+      it "replaces the contents of one string with another by mutating the caller" do
+        string = "this is all going to go bye-bye"
+        replacement = "a"
+
+        string.replace(replacement)
+
+        expect(string).to eq("a")
+      end
     end
 
     xdescribe "insert" do
