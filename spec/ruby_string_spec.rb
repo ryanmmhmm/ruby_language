@@ -1205,7 +1205,27 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "ljust" do
+    describe "ljust (left justify)" do
+      it "adds characters to the right of the string" do
+        string = "string"
+
+        ljust_string = string.ljust(4)
+        ljust_string1 = string.ljust(7)
+        ljust_string2 = string.ljust(10)
+
+        expect(ljust_string).to eq("string")
+        expect(ljust_string1).to eq("string ")
+        expect(ljust_string2).to eq("string    ")
+      end
+
+      it "adds characters to the right of the string" do
+        string = "string"
+        ljust_type = "*"
+
+        ljust_string = string.ljust(10, ljust_type)
+
+        expect(ljust_string).to eq("string****")
+      end
     end
 
     xdescribe "lstrp" do
