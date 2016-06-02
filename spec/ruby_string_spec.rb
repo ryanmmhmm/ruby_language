@@ -1123,7 +1123,16 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "insert" do
+    describe "insert" do
+      it "inserts a string at the index location of the caller string" do
+        string = "sub something in between these __ things"
+        index = string.index("__") + 1
+        inserted_string = "gopher"
+
+        string.insert(index, inserted_string)
+
+        expect(string).to eq("sub something in between these _gopher_ things")
+      end
     end
 
     xdescribe "inspect" do
