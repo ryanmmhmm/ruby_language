@@ -1054,7 +1054,29 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "include?" do
+    describe "include?" do
+      it "returns true if it includes the specified values" do
+        string = "abcdefghijklmnopqrstuvwxyz"
+
+        match = string.include?("a")
+        match2 = string.include?("ab")
+        match3 = string.include?("mnopqrst")
+
+        expect(match).to be true
+        expect(match2).to be true
+        expect(match3).to be true
+      end
+
+      it "returns false if it does not include the specified values exactly as stated" do
+        string = "abcdefghijklmnopqrstuvwxyz"
+        reverse_string = string.reverse         # "zyxwvutsrqponmlkjihgfedcba"
+
+        match = string.include?("ace")
+        match2 = string.include?(reverse_string)
+
+        expect(match).to be false
+        expect(match2).to be false
+      end
     end
 
     xdescribe "index" do
