@@ -551,9 +551,14 @@ RSpec.describe RubyString do
 
       expect(chomped).to eq("end of string")
     end
-  end
 
-  xdescribe "chomp!" do
+    it "chomp! does the same as above but mutates the string" do
+      string = "end of string\n\n"
+
+      string.chomp!("")
+
+      expect(string).to eq("end of string")
+    end
   end
 
   xdescribe "chop" do
