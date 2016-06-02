@@ -989,7 +989,42 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "gsub" do
+    describe "gsub" do
+      it "does a regular expression search and replace on the string" do
+        ## not going to dive deep into regex here, that's being saved for another spec
+        string = "I need a coffee"
+
+        subbed_string = string.gsub(/(coffee)/, "large coffee")
+
+        expect(subbed_string).to eq("I need a large coffee")
+      end
+
+      it "returns the original string when there is no match" do
+        ## not going to dive deep into regex here, that's being saved for another spec
+        string = "I need a coffee"
+
+        subbed_string = string.gsub(/[z]/, "large coffee")
+
+        expect(subbed_string).to eq("I need a coffee")
+      end
+
+      it "gsub! mutates the string in place" do
+        ## not going to dive deep into regex here, that's being saved for another spec
+        string = "I need a coffee"
+
+        string.gsub!(/(coffee)/, "large coffee")
+
+        expect(string).to eq("I need a large coffee")
+      end
+
+      it "can use a hash to replace vaules" do
+        ## not going to dive deep into regex here, that's being saved for another spec
+        string = "I need a coffee"
+
+        subbed_string = string.gsub(/(need)|(coffee)/, "need" => "really need", "coffee" => "large coffee")
+
+        expect(subbed_string).to eq("I really need a large coffee")
+      end
     end
 
     xdescribe "hash" do
