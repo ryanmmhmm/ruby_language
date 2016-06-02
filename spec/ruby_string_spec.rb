@@ -460,7 +460,37 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "center" do
+  describe "center" do
+    it "centers a string with desired padding" do
+      string = "centered"   # 8 chars long
+      under_size = 2        # expect no padding and all letters of string
+      odd_size = 11         # 11 - 8 = 3 (adds one space to the right first on odd numbers)
+      max_width = 18        # 22 - 8 = 10 (one space on either side)
+
+      under_size_centered_string = string.center(under_size)
+      odd_size_centered_string = string.center(odd_size)
+      max_centered_string = string.center(max_width)
+
+      expect(under_size_centered_string).to eq("centered")
+      expect(odd_size_centered_string).to eq(" centered  ")
+      expect(max_centered_string).to eq("     centered     ")
+    end
+
+    it "you can customize your padding!" do
+      string = "custom"    # 6 chars long
+      padding_length = 18
+      padding_type_1 = "*"
+      padding_type_2 = "#"
+      padding_type_3 = "^_^"
+
+      string_type_1 = string.center(padding_length, padding_type_1)
+      string_type_2 = string.center(padding_length, padding_type_2)
+      string_type_3 = string.center(padding_length, padding_type_3)
+
+      expect(string_type_1).to eq("******custom******")
+      expect(string_type_2).to eq("######custom######")
+      expect(string_type_3).to eq("^_^^_^custom^_^^_^")
+    end
   end
 
   xdescribe "chars" do
