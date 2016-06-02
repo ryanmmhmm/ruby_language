@@ -813,7 +813,25 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "each_codepoint" do
+    describe "each_codepoint" do
+      it "enumerates on each character of the string as an ordinal" do
+        string = "lots of characters"
+        ordinal_array = string.split('')
+        ordinal_array = ordinal_array.map.each { |c| c = c.ord }
+
+        enumerated = []
+        string.each_codepoint { |c| enumerated << c }
+
+        expect(enumerated).to eq(ordinal_array)
+      end
+
+      it "returns an enumerator object if empty" do
+        string = ""
+
+        enumerated = string.each_codepoint
+
+        expect(enumerated).to be_a(Enumerator)
+      end
     end
 
     xdescribe "each_line" do
