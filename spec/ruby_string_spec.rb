@@ -595,7 +595,22 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "chr" do
+  describe "chr" do
+    it "returns a one character string from the beginning of the string provided" do
+      hello = "hello"
+
+      character = hello.chr
+
+      expect(character).to eq("h")
+    end
+
+    it "if given an empty string it returns an empty string" do
+      nothing = ""
+
+      character = nothing.chr
+
+      expect(character).to eq("")
+    end
   end
 
   xdescribe "clear" do
