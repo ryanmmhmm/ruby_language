@@ -1246,7 +1246,26 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "match" do
+    describe "match" do
+      it "matches on a regex and returns a MatchData object" do
+        string = "find the regex in this string"
+
+        match = string.match(/(regex)/)
+
+        expect(match).to be_a(MatchData)
+        expect(match.captures).to include("regex")
+        expect(match.regexp).to eq(/(regex)/)
+        expect(match.post_match).to eq(" in this string")
+        expect(match.to_s).to eq("regex")
+      end
+
+      it "matches on a regex and returns a MatchData object" do
+        string = "find the regex in this string"
+
+        match = string.match(/(missing)/)
+
+        expect(match).to be nil
+      end
     end
 
     xdescribe "next" do
