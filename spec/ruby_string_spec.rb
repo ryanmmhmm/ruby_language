@@ -1,899 +1,905 @@
 require 'ruby_string'
 
 RSpec.describe RubyString do
-  describe "new" do
-    it "creates a new instance of string" do
-      string1 = String.new
-      string2 = String.new
+  context "Public Methods" do
+    describe "new" do
+      it "creates a new instance of string" do
+        string1 = String.new
+        string2 = String.new
 
-      expect(string1.object_id).not_to eq(string2.object_id)
+        expect(string1.object_id).not_to eq(string2.object_id)
+      end
     end
-  end
 
-  describe "try_convert" do
-    it "trys to convert an object into a string" do
-      class RubyString
-        def to_str
-          "RubyString"
+    describe "try_convert" do
+      it "trys to convert an object into a string" do
+        class RubyString
+          def to_str
+            "RubyString"
+          end
         end
+
+        object = RubyString.new
+        array = Array.new
+        hash = Hash.new
+
+        convert_object = String.try_convert(object)
+        convert_array = String.try_convert(array)
+        convert_hash = String.try_convert(hash)
+
+        expect(convert_object).to eq("RubyString")
+        expect(convert_array).to be nil
+        expect(convert_hash).to be nil
       end
 
-      object = RubyString.new
-      array = Array.new
-      hash = Hash.new
+      it "successfully converts an object to a string" do
+        object = "hello world"
 
-      convert_object = String.try_convert(object)
-      convert_array = String.try_convert(array)
-      convert_hash = String.try_convert(hash)
+        conversion = String.try_convert(object)
 
-      expect(convert_object).to eq("RubyString")
-      expect(convert_array).to be nil
-      expect(convert_hash).to be nil
-    end
-
-    it "successfully converts an object to a string" do
-      object = "hello world"
-
-      conversion = String.try_convert(object)
-
-      expect(conversion).to eq("hello world")
+        expect(conversion).to eq("hello world")
+      end
     end
   end
 
-  describe "string \% argument" do
-    # uses kernel::sprintf as per docs, incomplete understanding of this as of now
+  context "OPERATORS" do
+    describe "string \% argument" do
+      # uses kernel::sprintf as per docs, incomplete understanding of this as of now
 
-    it "subs integer input into a string with significant figures" do
-      formatter = "%05d" % 123
-      expect(formatter).to eq("00123")
+      it "subs integer input into a string with significant figures" do
+        formatter = "%05d" % 123
+        expect(formatter).to eq("00123")
+      end
+
+      it "can change the length of the output" do
+        formatter = "%09d" % "10"
+        expect(formatter).to eq("000000010")
+      end
+
+      it "can sub in arguments in order" do
+        formatter = "%-5s: %08x" % [ "ID", 1234 ]
+        expect(formatter).to eq("ID   : 000004d2")
+      end
+
+      it "can sub in defined values" do
+        formatter = "hash[:key] = %{key}" % { key: "value" }
+        expect(formatter).to eq("hash[:key] = value")
+      end
     end
 
-    it "can change the length of the output" do
-      formatter = "%09d" % "10"
-      expect(formatter).to eq("000000010")
+    describe "string * integer" do
+      it "multiplies the content of a string" do
+        string = "Three"
+
+        string_multiplier = string * 3
+
+        expect(string_multiplier).to eq("ThreeThreeThree")
+      end
     end
 
-    it "can sub in arguments in order" do
-      formatter = "%-5s: %08x" % [ "ID", 1234 ]
-      expect(formatter).to eq("ID   : 000004d2")
+    describe "string + other_string" do
+      it "concats two strings together" do
+        first = "first"
+        space = " "
+        second = "second"
+
+        string = first + space + second
+
+        expect(string).to eq("first second")
+      end
+
+      let(:bad_concat) { "first" + " " + 1 }
+
+      it "cannot concat a string and a non-string" do
+        expect{ bad_concat }.to raise_error(TypeError, /no implicit conversion of Fixnum into String/)
+      end
     end
 
-    it "can sub in defined values" do
-      formatter = "hash[:key] = %{key}" % { key: "value" }
-      expect(formatter).to eq("hash[:key] = value")
-    end
-  end
+    describe "mutable and immutable strings" do
+      it "frozen strings can't be modified" do
+        frozen_string = "I'm frozen!".freeze
 
-  describe "string * integer" do
-    it "multiplies the content of a string" do
-      string = "Three"
+        expect(frozen_string.frozen?).to be true
+        expect{ frozen_string << "some chars" }.to raise_error(RuntimeError, /can't modify frozen String/)
+      end
 
-      string_multiplier = string * 3
-
-      expect(string_multiplier).to eq("ThreeThreeThree")
-    end
-  end
-
-  describe "string + other_string" do
-    it "concats two strings together" do
-      first = "first"
-      space = " "
-      second = "second"
-
-      string = first + space + second
-
-      expect(string).to eq("first second")
+      # more to explore here but concentrate on it later
     end
 
-    let(:bad_concat) { "first" + " " + 1 }
+    describe "string << " do
+      it "can add 'integers' to strings" do
+        string = "string"
 
-    it "cannot concat a string and a non-string" do
-      expect{ bad_concat }.to raise_error(TypeError, /no implicit conversion of Fixnum into String/)
-    end
-  end
+        string = string << 1
 
-  describe "mutable and immutable strings" do
-    it "frozen strings can't be modified" do
-      frozen_string = "I'm frozen!".freeze
+        expect(string).to eq("string\u0001")
+      end
 
-      expect(frozen_string.frozen?).to be true
-      expect{ frozen_string << "some chars" }.to raise_error(RuntimeError, /can't modify frozen String/)
-    end
+      it "can concat integer values onto strings as codepoints" do
+        string = "string"
+        other_string = "".concat(105)
 
-    # more to explore here but concentrate on it later
-  end
+        string = string.concat(105)
 
-  describe "string << " do
-    it "can add 'integers' to strings" do
-      string = "string"
-
-      string = string << 1
-
-      expect(string).to eq("string\u0001")
+        expect(other_string).to eq("i")
+        expect(string).not_to eq("string")
+        expect(string).to eq("stringi")
+      end
     end
 
-    it "can concat integer values onto strings as codepoints" do
-      string = "string"
-      other_string = "".concat(105)
+    describe " <=> (saucer operator)" do
+      it "compares two strings together and returns a relative value" do
+        all_caps = "ASDF"
+        lower_case = "asdf"
+        shorter = "asd"
+        integer = 1
 
-      string = string.concat(105)
+        expect(all_caps <=> lower_case).to eq(-1) #=> ASDF < asdf
+        expect(lower_case <=> all_caps).to eq(1) #=> asdf > ASDF
+        expect(lower_case <=> lower_case).to eq(0) #=> asdf == asdf
+        expect(lower_case <=> shorter).to eq(1) #=> asdf > asd
+        expect(shorter <=> lower_case).to eq(-1) #=> asd < asdf
+        expect(shorter <=> shorter).to eq(0) #=> asd == asd
+        expect(lower_case <=> integer).to be nil #=> apples and oranges
+      end
 
-      expect(other_string).to eq("i")
-      expect(string).not_to eq("string")
-      expect(string).to eq("stringi")
-    end
-  end
+      it "operates on the byte values of the strings" do
+        all_caps = "ASDF"
+        all_caps_backwards = "FDSA"
+        lower_case = "asdf"
+        lower_case_backwards = "fdas"
 
-  describe " <=> (saucer operator)" do
-    it "compares two strings together and returns a relative value" do
-      all_caps = "ASDF"
-      lower_case = "asdf"
-      shorter = "asd"
-      integer = 1
+        sum_all_caps = all_caps.bytes.reduce(:+)
+        sum_all_caps_backwards = all_caps_backwards.bytes.reduce(:+)
+        sum_lower_case = lower_case.bytes.reduce(:+)
+        sum_lower_case_backwards = lower_case_backwards.bytes.reduce(:+)
 
-      expect(all_caps <=> lower_case).to eq(-1) #=> ASDF < asdf
-      expect(lower_case <=> all_caps).to eq(1) #=> asdf > ASDF
-      expect(lower_case <=> lower_case).to eq(0) #=> asdf == asdf
-      expect(lower_case <=> shorter).to eq(1) #=> asdf > asd
-      expect(shorter <=> lower_case).to eq(-1) #=> asd < asdf
-      expect(shorter <=> shorter).to eq(0) #=> asd == asd
-      expect(lower_case <=> integer).to be nil #=> apples and oranges
-    end
+        expect(sum_all_caps).to eq(286)
+        expect(sum_all_caps_backwards).to eq(286)
+        expect(sum_lower_case).to eq(414)
+        expect(sum_lower_case_backwards).to eq(414)
 
-    it "operates on the byte values of the strings" do
-      all_caps = "ASDF"
-      all_caps_backwards = "FDSA"
-      lower_case = "asdf"
-      lower_case_backwards = "fdas"
-
-      sum_all_caps = all_caps.bytes.reduce(:+)
-      sum_all_caps_backwards = all_caps_backwards.bytes.reduce(:+)
-      sum_lower_case = lower_case.bytes.reduce(:+)
-      sum_lower_case_backwards = lower_case_backwards.bytes.reduce(:+)
-
-      expect(sum_all_caps).to eq(286)
-      expect(sum_all_caps_backwards).to eq(286)
-      expect(sum_lower_case).to eq(414)
-      expect(sum_lower_case_backwards).to eq(414)
-
-      expect(sum_all_caps <=> sum_all_caps_backwards).to eq(0)
-      expect(sum_lower_case <=> sum_lower_case_backwards).to eq(0)
-      expect(sum_all_caps <=> sum_lower_case).to eq(-1)
-      expect(sum_lower_case <=> sum_all_caps ).to eq(1)
-    end
-  end
-
-  describe "string == object" do
-    it "compares equality of two strings" do
-      string = "hello"
-
-      expect(string == string).to be true
+        expect(sum_all_caps <=> sum_all_caps_backwards).to eq(0)
+        expect(sum_lower_case <=> sum_lower_case_backwards).to eq(0)
+        expect(sum_all_caps <=> sum_lower_case).to eq(-1)
+        expect(sum_lower_case <=> sum_all_caps ).to eq(1)
+      end
     end
 
-    it "compares equality of two strings" do
-      string = "hello"
-      string2 = "goodbye"
+    describe "string == object" do
+      it "compares equality of two strings" do
+        string = "hello"
 
-      expect(string == string2).to be false
+        expect(string == string).to be true
+      end
+
+      it "compares equality of two strings" do
+        string = "hello"
+        string2 = "goodbye"
+
+        expect(string == string2).to be false
+      end
+
+      it "compares equality of a string and an object that responds to .to_str" do
+        string = "hello"
+        array = ["hello"]
+
+        expect(string == array).to be false
+      end
     end
 
-    it "compares equality of a string and an object that responds to .to_str" do
-      string = "hello"
-      array = ["hello"]
+    describe "string === object" do
+      it "compares equality of two strings" do
+        string = "hello"
+        string2 = "hello"
 
-      expect(string == array).to be false
-    end
-  end
+        expect(string === string).to be true
+      end
 
-  describe "string === object" do
-    it "compares equality of two strings" do
-      string = "hello"
-      string2 = "hello"
-
-      expect(string === string).to be true
-    end
-
-    it "compares equality of a string and an object" do
-      class SomeObject
-        def to_str
-          "some string message"
+      it "compares equality of a string and an object" do
+        class SomeObject
+          def to_str
+            "some string message"
+          end
         end
+
+        expect("here's some string message" === "here's " + SomeObject.new).to be true
       end
 
-      expect("here's some string message" === "here's " + SomeObject.new).to be true
-    end
-
-    it "demonstrates that to_str is not defined on any objects normally (that I know of at least), but is the default method call for string conversions" do
-      class ObjectWithoutToStr
-      end
-
-      expect{ combine = "pls " + ObjectWithoutToStr.new }.to raise_error(TypeError, /no implicit conversion of ObjectWithoutToStr into String/)
-    end
-  end
-
-  describe "string =~ object" do
-    it "it returns the index of the string for the first match with a regex" do
-      string = "where am I mr. regex?"
-
-      match = string =~ /mr./
-
-      expect(match).to eq(11)
-    end
-
-    it "doesn't like integers, sorry" do
-      string = "where am I mr. integer?"
-
-      match = string =~ 9
-
-      expect(match).to be nil
-    end
-
-    it "...even if there are integers" do
-      string = "1234567890"
-
-      match = string =~ 9
-
-      expect(match).to be nil
-    end
-
-    it "pukes when it sees a string" do
-      string = "where am I mr. capital letter?"
-
-      expect{ match = string =~ "I" }.to raise_error(TypeError,/type mismatch: String given/)
-    end
-  end
-
-  describe "string[things]" do
-    it "finds the value at an index within the string" do
-      string = "there's a Whole lot of words in this string."
-      index = 10
-
-      string_at_index = string[index]
-
-      expect(string_at_index).to eq("W")
-    end
-
-    it "doesn't know what you're talking about when you try to find an index outside of the string" do
-      string = "there's a Whole lot of words in this string."
-      index = 9001
-
-      string_at_index = string[index]
-
-      expect(string_at_index).to be nil
-    end
-
-    it "goes to the back when you give it a negative number" do
-      string = "there's a Whole lot of words in this string."
-      index = -1
-
-      string_at_index = string[index]
-
-      expect(string_at_index).to eq(".")
-    end
-
-    it "will give you back a section if you ask nicely" do
-      string = "there's a Whole lot of words in this string."
-      index = 10
-      length = 5
-
-      string_at_index = string[index, length]
-
-      expect(string_at_index).to eq("Whole")
-    end
-
-    it "it speaks different languages for sections as well" do
-      string = "there's a Whole lot of words in this string."
-      range = (10...15)
-
-      string_at_index = string[range]
-
-      expect(string_at_index).to eq("Whole")
-    end
-
-    it "will accept a regex" do
-      string = "there's A Whole Lot oF words in this string. ```!"  # note chars with one instance are capitalized
-      regex = /(Whole)/        # find all of Whole (subexpression)
-      regex01 = /(LOFT)/       # LOFT doesn't exist (subexpression)
-      regex02 = /[^there's ]/  # literally -not "there's "- returns what comes after it (exclusive, order dependent)
-      regex03 = /[A]/          # finds the character then returns it
-      regex04 = /[LAW]/        # finds the first occurence in the set and returns it
-      regex05 = /\./           # what's the difference between these two?!
-      regex06 = /[']/          # what's the difference between these two?!
-
-      regex07 = /(?<vowel>[aeiou])(?<not_vowel>[^aeiou])/  # finds first match after not-vowel
-
-      ## ..... This has turned into a regex deep-dive.  Aborting for now but will make a regex_spec.rb at some point.
-      ## Too interesting not to.
-
-      string_at_index = string[regex]
-
-      expect(string_at_index).to eq("Whole")
-      expect(string[regex01]).to be nil
-      expect(string[regex02]).to eq("A")
-      expect(string[regex03]).to eq("A")
-      expect(string[regex04]).to eq("A")
-      expect(string[regex05]).to eq(".")
-      expect(string[regex06]).to eq("'")
-      expect(string[regex07, "not_vowel"]).to eq("r")
-    end
-
-    it "will match on strings as well" do
-      string = "there's a Whole lot of words in this string."
-      match = "Whole"
-
-      string_at_index = string[match]
-
-      expect(string_at_index).to eq("Whole")
-    end
-
-    it "but only if they exist" do
-      string = "there's a Whole lot of words in this string."
-      no_match = "zebra"
-
-      string_at_index = string[no_match]
-
-      expect(string_at_index).to be nil
-    end
-  end
-
-  describe "string ascii_only?" do
-    it "not sure if i care about this right now, might be useful for translations" do
-      expect("abc".force_encoding("UTF-8").ascii_only?).to be true
-      expect("abc\u{6666}".force_encoding("UTF-8").ascii_only?).to be false
-    end
-  end
-
-  describe "string.b" do
-    it "returns a copied string" do
-      string = "string"
-      expect(string.b.object_id).not_to eq(string.object_id)
-    end
-
-    it "returns a string whose encoding is ACII-8BIT" do
-      encoded_string = "string".encode("UTF-8")
-
-      ascii_string = encoded_string.b
-
-      expect(ascii_string.encoding).to eq(Encoding::ASCII_8BIT)
-      expect(encoded_string.encoding).to eq(Encoding::UTF_8)
-      expect(encoded_string).not_to be ascii_string   # essentially explains what's going on above but less explicitly
-      expect(encoded_string).to eq(ascii_string)      # this works becase the _content_ of each string is the same
-    end
-  end
-
-  describe "string.bytes" do
-    it "returns an array of the bytes of the string" do
-      string = "bytes"
-
-      bytes_array = string.bytes
-
-      expect(bytes_array).to be_a(Array)
-      expect(bytes_array).to eq([98, 121, 116, 101, 115])
-    end
-
-    it "is an alias for .each_byte.to_a, which is a deprecated form" do
-      string = "bytes"
-
-      bytes_array = string.each_byte.to_a
-
-      expect(bytes_array).to be_a(Array)
-      expect(bytes_array).to eq([98, 121, 116, 101, 115])
-    end
-  end
-
-  describe "bytesize" do
-    it "returns the length in number of bytes" do
-      length_5 = "hello"
-      expect(length_5.bytesize).to eq(5)
-    end
-
-    it "it even does it when it's bytes" do
-      byte_string = "\x80\u3042"
-      expect(byte_string.bytesize).to eq(4)
-    end
-  end
-
-  describe "byteslice" do
-    it "slices the string on index of bytes" do
-      string = "string"
-
-      byte_slice = string.byteslice(1)
-      bigger_slice = string.byteslice(3,4)
-
-      expect(byte_slice).to eq("t")
-      expect(bigger_slice).to eq("ing")  # not directly sure why this slice reveals 3 chars.  learn more about bytes in strings.
-    end
-
-    it "slices the string on index of bytes, if the string is bytes" do
-      string = "\x80\u3042"
-
-      byte_slice = string.byteslice(0)
-      byte_slice2 = string.byteslice(1,3)
-
-      expect(byte_slice).to eq("\x80")
-      expect(byte_slice2).to eq("\u3042")
-    end
-
-    it "can use a range as well" do
-      string = "\x80\u3042"
-
-      byte_slice = string.byteslice(1..3)
-
-      expect(byte_slice).to eq("\u3042")
-    end
-  end
-
-  describe "capitalize" do
-    it "returns the humanized version of the string with the first letter being capitalized" do
-      hello = "hello"
-      goodbye = "GOODBYE"
-      no_change = "No change"
-
-      expect(hello.capitalize).to eq("Hello")
-      expect(goodbye.capitalize).to eq("Goodbye")
-      expect(no_change.capitalize).to eq("No change")
-    end
-
-    it "capitalize! mutates the original string" do
-      unmutated = "unmutated"
-      mutated = "mutated"
-
-      unmutated.capitalize
-      mutated.capitalize!
-
-      expect(unmutated).to eq("unmutated")
-      expect(mutated).to eq("Mutated")
-    end
-
-    it "only works within the ASCII region of characters" do
-      string = "é"
-
-      expect(string.capitalize).to eq("é")
-    end
-  end
-
-  describe "casecmp" do
-    it "compares strings, ignoring case sensitivity" do
-      string = "string"
-      string1 = "string1"
-      string2 = "StRiNg"
-      string3 = "STRING"
-
-      expect(string.casecmp(string1)).to eq(-1)
-      expect(string1.casecmp(string)).to eq(1)
-      expect(string.casecmp(string2)).to eq(0)
-      expect(string.casecmp(string3)).to eq(0)
-    end
-  end
-
-  describe "center" do
-    it "centers a string with desired padding" do
-      string = "centered"   # 8 chars long
-      under_size = 2        # expect no padding and all letters of string
-      odd_size = 11         # 11 - 8 = 3 (adds one space to the right first on odd numbers)
-      max_width = 18        # 22 - 8 = 10 (one space on either side)
-
-      under_size_centered_string = string.center(under_size)
-      odd_size_centered_string = string.center(odd_size)
-      max_centered_string = string.center(max_width)
-
-      expect(under_size_centered_string).to eq("centered")
-      expect(odd_size_centered_string).to eq(" centered  ")
-      expect(max_centered_string).to eq("     centered     ")
-    end
-
-    it "can customize the padding!" do
-      string = "custom"    # 6 chars long
-      padding_length = 18
-      padding_type_1 = "*"
-      padding_type_2 = "#"
-      padding_type_3 = "^_^"
-
-      string_type_1 = string.center(padding_length, padding_type_1)
-      string_type_2 = string.center(padding_length, padding_type_2)
-      string_type_3 = string.center(padding_length, padding_type_3)
-
-      expect(string_type_1).to eq("******custom******")
-      expect(string_type_2).to eq("######custom######")
-      expect(string_type_3).to eq("^_^^_^custom^_^^_^")
-    end
-  end
-
-  describe "chars" do
-    it "returns an Array of characters" do
-      string = "string"
-
-      chars = string.chars
-
-      expect(chars).to eq(["s","t","r","i","n","g"])
-    end
-  end
-
-  describe "chomp" do
-    it "removes the last record separator from a string (like \\n for new line)" do
-      string = "end of string\n"
-
-      chomped = string.chomp
-
-      expect(chomped).to eq("end of string")
-    end
-
-    it "will only remove one of them by default" do
-      string = "end of string\n\n"
-
-      chomped = string.chomp
-
-      expect(chomped).to eq("end of string\n")
-    end
-
-    it "will only remove two if you ask it to" do
-      string = "end of string\n\r\n"
-
-      chomped = string.chomp("\n\r\n")
-
-      expect(chomped).to eq("end of string")
-    end
-
-    it "can also take a bigger bite off of the end" do
-      string = "end of string\n\n"
-
-      chomped = string.chomp("string\n\n")
-
-      expect(chomped).to eq("end of ")
-    end
-
-    it "isn't very smart about how it removes things" do
-      string = "end of string\n\r\n"
-
-      chomped = string.chomp("\n\n")
-
-      expect(chomped).to eq("end of string\n\r\n")
-    end
-
-    it "unless you give it ('') to chew on" do
-      string = "end of string\n\r\n"
-
-      chomped = string.chomp("")
-
-      expect(chomped).to eq("end of string")
-    end
-
-    it "chomp! does the same as above but mutates the string" do
-      string = "end of string\n\n"
-
-      string.chomp!("")
-
-      expect(string).to eq("end of string")
-    end
-  end
-
-  describe "chop" do
-    it "acts like chomp but more aggressively" do
-      string = "string\r\n"
-
-      chopped = string.chop
-
-      expect(chopped).to eq("string")
-    end
-
-    it "if you're not careful, you'll cut your finger tips off!" do
-      string = "string"
-
-      chopped = string.chop
-
-      expect(chopped).to eq("strin")
-    end
-
-    it "will chop at nothing" do
-      string = "a"
-
-      chopped = string.chop.chop
-
-      expect(chopped).to eq("")
-    end
-
-    it "chop! will also mutate the string" do
-      string = "string\r\n"
-
-      string.chop!
-
-      expect(string).to eq("string")
-    end
-  end
-
-  describe "chr" do
-    it "returns a one character string from the beginning of the string provided" do
-      hello = "hello"
-
-      character = hello.chr
-
-      expect(character).to eq("h")
-    end
-
-    it "if given an empty string it returns an empty string" do
-      nothing = ""
-
-      character = nothing.chr
-
-      expect(character).to eq("")
-    end
-  end
-
-  describe "clear" do
-    it "empties the contents of a string" do
-      string = "string"
-
-      cleared_string = string.clear
-
-      expect(cleared_string).to eq("")
-    end
-  end
-
-  describe "codepoints" do
-    it "returns an array of integer ordinals" do
-      string = "string"
-
-      codepoints = string.codepoints
-
-      expect(codepoints).to eq([115, 116, 114, 105, 110, 103])
-    end
-  end
-
-  describe "concat" do
-    it "appends a string to a string" do
-      string = "Original"
-      append_me = "Gangster"
-
-      concat = string.concat(append_me)
-
-      expect(concat).to eq("OriginalGangster")
-    end
-
-    it "appends an object to a string, if Object.to_str is defined" do
-      class SomeObject
-        def to_str
-          "Gangster"
+      it "demonstrates that to_str is not defined on any objects normally (that I know of at least), but is the default method call for string conversions" do
+        class ObjectWithoutToStr
         end
+
+        expect{ combine = "pls " + ObjectWithoutToStr.new }.to raise_error(TypeError, /no implicit conversion of ObjectWithoutToStr into String/)
+      end
+    end
+
+    describe "string =~ object" do
+      it "it returns the index of the string for the first match with a regex" do
+        string = "where am I mr. regex?"
+
+        match = string =~ /mr./
+
+        expect(match).to eq(11)
       end
 
-      string = "Original"
-      append_me = SomeObject.new
+      it "doesn't like integers, sorry" do
+        string = "where am I mr. integer?"
 
-      concat = string.concat(append_me)
+        match = string =~ 9
 
-      expect(concat).to eq("OriginalGangster")
-    end
+        expect(match).to be nil
+      end
 
-    it "may be better known to use << syntax" do
-      string = "Original"
-      append_me = "Gangster"
+      it "...even if there are integers" do
+        string = "1234567890"
 
-      concat = string << append_me
+        match = string =~ 9
 
-      expect(concat).to eq("OriginalGangster")
-    end
-  end
+        expect(match).to be nil
+      end
 
-  describe "count" do
-    it "counts the occurances of chacaters in a string" do
-      string = "four"
-      look_for = "o"
+      it "pukes when it sees a string" do
+        string = "where am I mr. capital letter?"
 
-      counted = string.count(look_for)
-
-      expect(counted).to eq(1)
-      expect(string.count("a")).to eq(0)
-    end
-
-    it "will count between things" do
-      string = "mississauga"
-      look_from = "mi"
-      look_to = "is"
-
-      counted = string.count(look_from, look_to)
-
-      expect(counted).to eq(2)
+        expect{ match = string =~ "I" }.to raise_error(TypeError,/type mismatch: String given/)
+      end
     end
   end
 
-  xdescribe "crypt" do
-  end
+  context "Instance Methods" do
+    describe "string[things]" do
+      it "finds the value at an index within the string" do
+        string = "there's a Whole lot of words in this string."
+        index = 10
 
-  xdescribe "delete" do
-  end
+        string_at_index = string[index]
 
-  xdescribe "downcase" do
-  end
+        expect(string_at_index).to eq("W")
+      end
 
-  xdescribe "dump" do
-  end
+      it "doesn't know what you're talking about when you try to find an index outside of the string" do
+        string = "there's a Whole lot of words in this string."
+        index = 9001
 
-  xdescribe "each_byte" do
-  end
+        string_at_index = string[index]
 
-  xdescribe "each_char" do
-  end
+        expect(string_at_index).to be nil
+      end
 
-  xdescribe "each_codepoint" do
-  end
+      it "goes to the back when you give it a negative number" do
+        string = "there's a Whole lot of words in this string."
+        index = -1
 
-  xdescribe "each_line" do
-  end
+        string_at_index = string[index]
 
-  xdescribe "empty?" do
-  end
+        expect(string_at_index).to eq(".")
+      end
 
-  xdescribe "encode" do
-  end
+      it "will give you back a section if you ask nicely" do
+        string = "there's a Whole lot of words in this string."
+        index = 10
+        length = 5
 
-  xdescribe "encoding" do
-  end
+        string_at_index = string[index, length]
 
-  xdescribe "end_with?" do
-  end
+        expect(string_at_index).to eq("Whole")
+      end
 
-  xdescribe "eql?" do
-  end
+      it "it speaks different languages for sections as well" do
+        string = "there's a Whole lot of words in this string."
+        range = (10...15)
 
-  xdescribe "force_encoding" do
-  end
+        string_at_index = string[range]
 
-  xdescribe "freeze" do
-  end
+        expect(string_at_index).to eq("Whole")
+      end
 
-  xdescribe "getbyte" do
-  end
+      it "will accept a regex" do
+        string = "there's A Whole Lot oF words in this string. ```!"  # note chars with one instance are capitalized
+        regex = /(Whole)/        # find all of Whole (subexpression)
+        regex01 = /(LOFT)/       # LOFT doesn't exist (subexpression)
+        regex02 = /[^there's ]/  # literally -not "there's "- returns what comes after it (exclusive, order dependent)
+        regex03 = /[A]/          # finds the character then returns it
+        regex04 = /[LAW]/        # finds the first occurence in the set and returns it
+        regex05 = /\./           # what's the difference between these two?!
+        regex06 = /[']/          # what's the difference between these two?!
 
-  xdescribe "gsub" do
-  end
+        regex07 = /(?<vowel>[aeiou])(?<not_vowel>[^aeiou])/  # finds first match after not-vowel
 
-  xdescribe "hash" do
-  end
+        ## ..... This has turned into a regex deep-dive.  Aborting for now but will make a regex_spec.rb at some point.
+        ## Too interesting not to.
 
-  xdescribe "hex" do
-  end
+        string_at_index = string[regex]
 
-  xdescribe "include?" do
-  end
+        expect(string_at_index).to eq("Whole")
+        expect(string[regex01]).to be nil
+        expect(string[regex02]).to eq("A")
+        expect(string[regex03]).to eq("A")
+        expect(string[regex04]).to eq("A")
+        expect(string[regex05]).to eq(".")
+        expect(string[regex06]).to eq("'")
+        expect(string[regex07, "not_vowel"]).to eq("r")
+      end
 
-  xdescribe "index" do
-  end
+      it "will match on strings as well" do
+        string = "there's a Whole lot of words in this string."
+        match = "Whole"
 
-  xdescribe "replace" do
-  end
+        string_at_index = string[match]
 
-  xdescribe "insert" do
-  end
+        expect(string_at_index).to eq("Whole")
+      end
 
-  xdescribe "inspect" do
-  end
+      it "but only if they exist" do
+        string = "there's a Whole lot of words in this string."
+        no_match = "zebra"
 
-  xdescribe "intern" do
-  end
+        string_at_index = string[no_match]
 
-  xdescribe "length" do
-  end
+        expect(string_at_index).to be nil
+      end
+    end
 
-  xdescribe "length" do
-  end
+    describe "string ascii_only?" do
+      it "not sure if i care about this right now, might be useful for translations" do
+        expect("abc".force_encoding("UTF-8").ascii_only?).to be true
+        expect("abc\u{6666}".force_encoding("UTF-8").ascii_only?).to be false
+      end
+    end
 
-  xdescribe "lines" do
-  end
+    describe "string.b" do
+      it "returns a copied string" do
+        string = "string"
+        expect(string.b.object_id).not_to eq(string.object_id)
+      end
 
-  xdescribe "ljust" do
-  end
+      it "returns a string whose encoding is ACII-8BIT" do
+        encoded_string = "string".encode("UTF-8")
 
-  xdescribe "lstrp" do
-  end
+        ascii_string = encoded_string.b
 
-  xdescribe "match" do
-  end
+        expect(ascii_string.encoding).to eq(Encoding::ASCII_8BIT)
+        expect(encoded_string.encoding).to eq(Encoding::UTF_8)
+        expect(encoded_string).not_to be ascii_string   # essentially explains what's going on above but less explicitly
+        expect(encoded_string).to eq(ascii_string)      # this works becase the _content_ of each string is the same
+      end
+    end
 
-  xdescribe "next" do
-  end
+    describe "string.bytes" do
+      it "returns an array of the bytes of the string" do
+        string = "bytes"
+
+        bytes_array = string.bytes
 
-  xdescribe "oct" do
-  end
+        expect(bytes_array).to be_a(Array)
+        expect(bytes_array).to eq([98, 121, 116, 101, 115])
+      end
+
+      it "is an alias for .each_byte.to_a, which is a deprecated form" do
+        string = "bytes"
+
+        bytes_array = string.each_byte.to_a
+
+        expect(bytes_array).to be_a(Array)
+        expect(bytes_array).to eq([98, 121, 116, 101, 115])
+      end
+    end
+
+    describe "bytesize" do
+      it "returns the length in number of bytes" do
+        length_5 = "hello"
+        expect(length_5.bytesize).to eq(5)
+      end
+
+      it "it even does it when it's bytes" do
+        byte_string = "\x80\u3042"
+        expect(byte_string.bytesize).to eq(4)
+      end
+    end
+
+    describe "byteslice" do
+      it "slices the string on index of bytes" do
+        string = "string"
+
+        byte_slice = string.byteslice(1)
+        bigger_slice = string.byteslice(3,4)
+
+        expect(byte_slice).to eq("t")
+        expect(bigger_slice).to eq("ing")  # not directly sure why this slice reveals 3 chars.  learn more about bytes in strings.
+      end
+
+      it "slices the string on index of bytes, if the string is bytes" do
+        string = "\x80\u3042"
+
+        byte_slice = string.byteslice(0)
+        byte_slice2 = string.byteslice(1,3)
+
+        expect(byte_slice).to eq("\x80")
+        expect(byte_slice2).to eq("\u3042")
+      end
+
+      it "can use a range as well" do
+        string = "\x80\u3042"
+
+        byte_slice = string.byteslice(1..3)
+
+        expect(byte_slice).to eq("\u3042")
+      end
+    end
+
+    describe "capitalize" do
+      it "returns the humanized version of the string with the first letter being capitalized" do
+        hello = "hello"
+        goodbye = "GOODBYE"
+        no_change = "No change"
+
+        expect(hello.capitalize).to eq("Hello")
+        expect(goodbye.capitalize).to eq("Goodbye")
+        expect(no_change.capitalize).to eq("No change")
+      end
 
-  xdescribe "ord" do
-  end
+      it "capitalize! mutates the original string" do
+        unmutated = "unmutated"
+        mutated = "mutated"
 
-  xdescribe "partition" do
-  end
+        unmutated.capitalize
+        mutated.capitalize!
 
-  xdescribe "prepend" do
-  end
+        expect(unmutated).to eq("unmutated")
+        expect(mutated).to eq("Mutated")
+      end
 
-  xdescribe "replace" do
-  end
+      it "only works within the ASCII region of characters" do
+        string = "é"
 
-  xdescribe "reverse" do
-  end
+        expect(string.capitalize).to eq("é")
+      end
+    end
 
-  xdescribe "rindex" do
-  end
+    describe "casecmp" do
+      it "compares strings, ignoring case sensitivity" do
+        string = "string"
+        string1 = "string1"
+        string2 = "StRiNg"
+        string3 = "STRING"
 
-  xdescribe "rindex" do
-  end
+        expect(string.casecmp(string1)).to eq(-1)
+        expect(string1.casecmp(string)).to eq(1)
+        expect(string.casecmp(string2)).to eq(0)
+        expect(string.casecmp(string3)).to eq(0)
+      end
+    end
 
-  xdescribe "rjust" do
-  end
+    describe "center" do
+      it "centers a string with desired padding" do
+        string = "centered"   # 8 chars long
+        under_size = 2        # expect no padding and all letters of string
+        odd_size = 11         # 11 - 8 = 3 (adds one space to the right first on odd numbers)
+        max_width = 18        # 22 - 8 = 10 (one space on either side)
 
-  xdescribe "rpartition" do
-  end
+        under_size_centered_string = string.center(under_size)
+        odd_size_centered_string = string.center(odd_size)
+        max_centered_string = string.center(max_width)
 
-  xdescribe "rstrip" do
-  end
+        expect(under_size_centered_string).to eq("centered")
+        expect(odd_size_centered_string).to eq(" centered  ")
+        expect(max_centered_string).to eq("     centered     ")
+      end
 
-  xdescribe "scan" do
-  end
+      it "can customize the padding!" do
+        string = "custom"    # 6 chars long
+        padding_length = 18
+        padding_type_1 = "*"
+        padding_type_2 = "#"
+        padding_type_3 = "^_^"
 
-  xdescribe "scrub" do
-  end
+        string_type_1 = string.center(padding_length, padding_type_1)
+        string_type_2 = string.center(padding_length, padding_type_2)
+        string_type_3 = string.center(padding_length, padding_type_3)
 
-  xdescribe "setbyte" do
-  end
+        expect(string_type_1).to eq("******custom******")
+        expect(string_type_2).to eq("######custom######")
+        expect(string_type_3).to eq("^_^^_^custom^_^^_^")
+      end
+    end
 
-  xdescribe "slice" do
-  end
+    describe "chars" do
+      it "returns an Array of characters" do
+        string = "string"
 
-  xdescribe "split" do
-  end
+        chars = string.chars
 
-  xdescribe "squeeze" do
-  end
+        expect(chars).to eq(["s","t","r","i","n","g"])
+      end
+    end
 
-  xdescribe "start_with?" do
-  end
+    describe "chomp" do
+      it "removes the last record separator from a string (like \\n for new line)" do
+        string = "end of string\n"
 
-  xdescribe "strip" do
-  end
+        chomped = string.chomp
 
-  xdescribe "sub" do
-  end
+        expect(chomped).to eq("end of string")
+      end
 
-  xdescribe "succ" do
-  end
+      it "will only remove one of them by default" do
+        string = "end of string\n\n"
 
-  xdescribe "sum" do
-  end
+        chomped = string.chomp
 
-  xdescribe "swapcase" do
-  end
+        expect(chomped).to eq("end of string\n")
+      end
 
-  xdescribe "to_c" do
-  end
+      it "will only remove two if you ask it to" do
+        string = "end of string\n\r\n"
 
-  xdescribe "to_f" do
-  end
+        chomped = string.chomp("\n\r\n")
 
-  xdescribe "to_i" do
-  end
+        expect(chomped).to eq("end of string")
+      end
 
-  xdescribe "to_r" do
-  end
+      it "can also take a bigger bite off of the end" do
+        string = "end of string\n\n"
 
-  xdescribe "to_s" do
-  end
+        chomped = string.chomp("string\n\n")
 
-  xdescribe "to_sym" do
-  end
+        expect(chomped).to eq("end of ")
+      end
 
-  xdescribe "tr" do
-  end
+      it "isn't very smart about how it removes things" do
+        string = "end of string\n\r\n"
 
-  xdescribe "tr_s" do
-  end
+        chomped = string.chomp("\n\n")
 
-  xdescribe "unpack" do
-  end
+        expect(chomped).to eq("end of string\n\r\n")
+      end
 
-  xdescribe "upcase" do
-  end
+      it "unless you give it ('') to chew on" do
+        string = "end of string\n\r\n"
 
-  xdescribe "upto" do
-  end
+        chomped = string.chomp("")
 
-  xdescribe "valid_encoding?" do
+        expect(chomped).to eq("end of string")
+      end
+
+      it "chomp! does the same as above but mutates the string" do
+        string = "end of string\n\n"
+
+        string.chomp!("")
+
+        expect(string).to eq("end of string")
+      end
+    end
+
+    describe "chop" do
+      it "acts like chomp but more aggressively" do
+        string = "string\r\n"
+
+        chopped = string.chop
+
+        expect(chopped).to eq("string")
+      end
+
+      it "if you're not careful, you'll cut your finger tips off!" do
+        string = "string"
+
+        chopped = string.chop
+
+        expect(chopped).to eq("strin")
+      end
+
+      it "will chop at nothing" do
+        string = "a"
+
+        chopped = string.chop.chop
+
+        expect(chopped).to eq("")
+      end
+
+      it "chop! will also mutate the string" do
+        string = "string\r\n"
+
+        string.chop!
+
+        expect(string).to eq("string")
+      end
+    end
+
+    describe "chr" do
+      it "returns a one character string from the beginning of the string provided" do
+        hello = "hello"
+
+        character = hello.chr
+
+        expect(character).to eq("h")
+      end
+
+      it "if given an empty string it returns an empty string" do
+        nothing = ""
+
+        character = nothing.chr
+
+        expect(character).to eq("")
+      end
+    end
+
+    describe "clear" do
+      it "empties the contents of a string" do
+        string = "string"
+
+        cleared_string = string.clear
+
+        expect(cleared_string).to eq("")
+      end
+    end
+
+    describe "codepoints" do
+      it "returns an array of integer ordinals" do
+        string = "string"
+
+        codepoints = string.codepoints
+
+        expect(codepoints).to eq([115, 116, 114, 105, 110, 103])
+      end
+    end
+
+    describe "concat" do
+      it "appends a string to a string" do
+        string = "Original"
+        append_me = "Gangster"
+
+        concat = string.concat(append_me)
+
+        expect(concat).to eq("OriginalGangster")
+      end
+
+      it "appends an object to a string, if Object.to_str is defined" do
+        class SomeObject
+          def to_str
+            "Gangster"
+          end
+        end
+
+        string = "Original"
+        append_me = SomeObject.new
+
+        concat = string.concat(append_me)
+
+        expect(concat).to eq("OriginalGangster")
+      end
+
+      it "may be better known to use << syntax" do
+        string = "Original"
+        append_me = "Gangster"
+
+        concat = string << append_me
+
+        expect(concat).to eq("OriginalGangster")
+      end
+    end
+
+    describe "count" do
+      it "counts the occurances of chacaters in a string" do
+        string = "four"
+        look_for = "o"
+
+        counted = string.count(look_for)
+
+        expect(counted).to eq(1)
+        expect(string.count("a")).to eq(0)
+      end
+
+      it "will count between things" do
+        string = "mississauga"
+        look_from = "mi"
+        look_to = "is"
+
+        counted = string.count(look_from, look_to)
+
+        expect(counted).to eq(2)
+      end
+    end
+
+    xdescribe "crypt" do
+    end
+
+    xdescribe "delete" do
+    end
+
+    xdescribe "downcase" do
+    end
+
+    xdescribe "dump" do
+    end
+
+    xdescribe "each_byte" do
+    end
+
+    xdescribe "each_char" do
+    end
+
+    xdescribe "each_codepoint" do
+    end
+
+    xdescribe "each_line" do
+    end
+
+    xdescribe "empty?" do
+    end
+
+    xdescribe "encode" do
+    end
+
+    xdescribe "encoding" do
+    end
+
+    xdescribe "end_with?" do
+    end
+
+    xdescribe "eql?" do
+    end
+
+    xdescribe "force_encoding" do
+    end
+
+    xdescribe "freeze" do
+    end
+
+    xdescribe "getbyte" do
+    end
+
+    xdescribe "gsub" do
+    end
+
+    xdescribe "hash" do
+    end
+
+    xdescribe "hex" do
+    end
+
+    xdescribe "include?" do
+    end
+
+    xdescribe "index" do
+    end
+
+    xdescribe "replace" do
+    end
+
+    xdescribe "insert" do
+    end
+
+    xdescribe "inspect" do
+    end
+
+    xdescribe "intern" do
+    end
+
+    xdescribe "length" do
+    end
+
+    xdescribe "length" do
+    end
+
+    xdescribe "lines" do
+    end
+
+    xdescribe "ljust" do
+    end
+
+    xdescribe "lstrp" do
+    end
+
+    xdescribe "match" do
+    end
+
+    xdescribe "next" do
+    end
+
+    xdescribe "oct" do
+    end
+
+    xdescribe "ord" do
+    end
+
+    xdescribe "partition" do
+    end
+
+    xdescribe "prepend" do
+    end
+
+    xdescribe "replace" do
+    end
+
+    xdescribe "reverse" do
+    end
+
+    xdescribe "rindex" do
+    end
+
+    xdescribe "rindex" do
+    end
+
+    xdescribe "rjust" do
+    end
+
+    xdescribe "rpartition" do
+    end
+
+    xdescribe "rstrip" do
+    end
+
+    xdescribe "scan" do
+    end
+
+    xdescribe "scrub" do
+    end
+
+    xdescribe "setbyte" do
+    end
+
+    xdescribe "slice" do
+    end
+
+    xdescribe "split" do
+    end
+
+    xdescribe "squeeze" do
+    end
+
+    xdescribe "start_with?" do
+    end
+
+    xdescribe "strip" do
+    end
+
+    xdescribe "sub" do
+    end
+
+    xdescribe "succ" do
+    end
+
+    xdescribe "sum" do
+    end
+
+    xdescribe "swapcase" do
+    end
+
+    xdescribe "to_c" do
+    end
+
+    xdescribe "to_f" do
+    end
+
+    xdescribe "to_i" do
+    end
+
+    xdescribe "to_r" do
+    end
+
+    xdescribe "to_s" do
+    end
+
+    xdescribe "to_sym" do
+    end
+
+    xdescribe "tr" do
+    end
+
+    xdescribe "tr_s" do
+    end
+
+    xdescribe "unpack" do
+    end
+
+    xdescribe "upcase" do
+    end
+
+    xdescribe "upto" do
+    end
+
+    xdescribe "valid_encoding?" do
+    end
   end
 end
