@@ -1079,7 +1079,37 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "index" do
+    describe "index" do
+      it "returns the index of the first occurance of a given substring" do
+        string = "index at '10' will return 10"           # see what I did there?
+        substring = "10"
+
+        index_value = string.index(substring)
+
+        expect(index_value).to eq(10)
+      end
+
+      it "returns the index of the first occurance of a given substring with an offset of whatever is specified" do
+        string = "index at '10' will return 10"           # see what I did there?
+        substring = "10"
+        offset = 1
+        offset2 = 11
+
+        index_value = string.index(substring, offset)     # offset from root index still falls BEFORE first occurrence of 10
+        index_value2 = string.index(substring, offset2)   # offset from root index falls falls AFTER first occurence of 10
+
+        expect(index_value).to eq(10)
+        expect(index_value2).to eq(26)                    # ignores the first 10 because of the offset
+      end
+
+      it "returns the index of the first occurance of a given /regular expression/" do
+        string = "index at '10' will return 10"           # see what I did there?
+        regex = /(10)/
+
+        index_value = string.index(regex)
+
+        expect(index_value).to eq(10)
+      end
     end
 
     xdescribe "replace" do
