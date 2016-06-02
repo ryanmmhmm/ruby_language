@@ -668,7 +668,26 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "count" do
+  describe "count" do
+    it "counts the occurances of chacaters in a string" do
+      string = "four"
+      look_for = "o"
+
+      counted = string.count(look_for)
+
+      expect(counted).to eq(1)
+      expect(string.count("a")).to eq(0)
+    end
+
+    it "will count between things" do
+      string = "mississauga"
+      look_from = "mi"
+      look_to = "is"
+
+      counted = string.count(look_from, look_to)
+
+      expect(counted).to eq(2)
+    end
   end
 
   xdescribe "crypt" do
