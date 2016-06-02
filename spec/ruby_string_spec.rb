@@ -633,7 +633,39 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "concat" do
+  describe "concat" do
+    it "appends a string to a string" do
+      string = "Original"
+      append_me = "Gangster"
+
+      concat = string.concat(append_me)
+
+      expect(concat).to eq("OriginalGangster")
+    end
+
+    it "appends an object to a string, if Object.to_str is defined" do
+      class SomeObject
+        def to_str
+          "Gangster"
+        end
+      end
+
+      string = "Original"
+      append_me = SomeObject.new
+
+      concat = string.concat(append_me)
+
+      expect(concat).to eq("OriginalGangster")
+    end
+
+    it "may be better known to use << syntax" do
+      string = "Original"
+      append_me = "Gangster"
+
+      concat = string << append_me
+
+      expect(concat).to eq("OriginalGangster")
+    end
   end
 
   xdescribe "count" do
