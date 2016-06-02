@@ -561,7 +561,38 @@ RSpec.describe RubyString do
     end
   end
 
-  xdescribe "chop" do
+  describe "chop" do
+    it "acts like chomp but more aggressively" do
+      string = "string\r\n"
+
+      chopped = string.chop
+
+      expect(chopped).to eq("string")
+    end
+
+    it "if you're not careful, you'll cut your finger tips off!" do
+      string = "string"
+
+      chopped = string.chop
+
+      expect(chopped).to eq("strin")
+    end
+
+    it "will chop at nothing" do
+      string = "a"
+
+      chopped = string.chop.chop
+
+      expect(chopped).to eq("")
+    end
+
+    it "chop! will also mutate the string" do
+      string = "string\r\n"
+
+      string.chop!
+
+      expect(string).to eq("string")
+    end
   end
 
   xdescribe "chr" do
