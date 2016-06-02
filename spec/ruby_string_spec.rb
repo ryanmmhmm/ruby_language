@@ -1145,7 +1145,24 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "intern" do
+    describe "intern" do
+      it "creates an associated symbol from the given string" do
+        string = "new_symbol"
+
+        intern = string.intern
+
+        expect(intern).to be_a(Symbol)
+        expect(intern).to be :new_symbol
+      end
+
+      it "can create a symbol that has weird characters like :'this and that'" do
+        string = "this and that"
+
+        intern = string.intern
+
+        expect(intern).to be_a(Symbol)
+        expect(intern).to be :'this and that'
+      end
     end
 
     xdescribe "length" do
