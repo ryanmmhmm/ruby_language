@@ -2055,7 +2055,84 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "tr" do
+    describe "tr" do
+      it "translates characters in a string from and to values provided" do
+        string = "abcdefg"
+
+        translation = string.tr("abcdefg", "its on!")
+
+        expect(translation).to eq("its on!")
+      end
+
+      it "it compares from_str[0] with to_str[0] for conversions" do
+        string = "abcdefg"
+        from_str = "abcdefg".reverse
+        to_str = "its on!"
+
+        translation = string.tr(from_str, to_str)
+
+        expect(translation).to eq("!no sti")
+      end
+
+      # pulling from docs examples from here on out because they are actually very thorough
+
+      it "matches on patterns" do
+        string = "hello"
+        from_str = "aeiou"
+        to_str = "*"
+
+        translation = string.tr(from_str, to_str)
+
+        expect(translation).to eq("h*ll*")
+      end
+
+      it "makes some assumptions about character assignment" do
+        string = "hello"
+        from_str = "aeiou"
+        to_str = "AA*"
+
+        translation = string.tr(from_str, to_str)
+
+        expect(translation).to eq("hAll*")
+      end
+
+      it "matches on a range of characters" do
+        string = "hello"
+        from_str = "a-z"
+        to_str = "1-9"
+
+        translation = string.tr(from_str, to_str)
+
+        expect(translation).to eq("85999")
+      end
+
+      it "actually accepts regex syntax in string form, sort of" do
+        string = "hello"
+        from_str = "/[hello]/"  # if this were true regex i'd expect "/(hello)/" #=> "A"
+        to_str = "A"
+
+        translation = string.tr(from_str, to_str)
+
+        expect(translation).to eq("AAAAA")
+      end
+
+      it "can escape ^ signs in the matchers" do
+        string = "hello^world"
+
+        translation = string.tr("\\^aeiou", "*")
+
+        expect(translation).to eq("h*ll**w*rld")
+      end
+
+      it "can make things go away" do
+        string = "\x66\nhello^world\r"
+        from_str = "\x66\n\\^\r"
+        to_str = ""
+
+        translation = string.tr(from_str, to_str)
+
+        expect(translation).to eq("helloworld")
+      end
     end
 
     xdescribe "tr_s" do
