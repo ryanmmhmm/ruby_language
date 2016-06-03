@@ -1839,7 +1839,56 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "sub" do
+    describe "sub" do
+      it "substitutes the value provided into the string into the _FIRST_ corresponding match point" do
+        string = "theres a lot of subtitution points in here"
+        matcher = " "
+        substitution = "8"
+
+        substituted = string.sub(matcher, substitution)
+
+        expect(substituted).to eq("theres8a lot of subtitution points in here")
+      end
+
+      it "accpets a regex as the matcher" do
+        string = "theres a lot of subtitution points in here"
+        matcher = /(lot of subtitution points)/
+        substitution = "new string"
+
+        substituted = string.sub(matcher, substitution)
+
+        expect(substituted).to eq("theres a new string in here")
+      end
+
+      it "if there is no match, it returns the original string" do
+        string = "theres a lot of subtitution points in here"
+        matcher = "Z"
+        substitution = "8"
+
+        substituted = string.sub(matcher, substitution)
+
+        expect(substituted).to eq("theres a lot of subtitution points in here")
+      end
+
+      it "sub! mutates the string in place" do
+        string = "theres a lot of subtitution points in here"
+        matcher = "Z"
+        substitution = "8"
+
+        string.sub!(matcher, substitution)
+
+        expect(string).to eq("theres a lot of subtitution points in here")
+      end
+
+      it "sub! if there is no match, it returns the original string" do
+        string = "theres a lot of subtitution points in here"
+        matcher = "Z"
+        substitution = "8"
+
+        string.sub!(matcher, substitution)
+
+        expect(string).to eq("theres a lot of subtitution points in here")
+      end
     end
 
     xdescribe "succ" do
