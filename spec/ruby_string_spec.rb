@@ -1486,7 +1486,27 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "rjust" do
+    describe "rjust" do
+      it "adds characters to the left of the string" do
+        string = "string"
+
+        rjust_string = string.rjust(4)
+        rjust_string1 = string.rjust(7)
+        rjust_string2 = string.rjust(10)
+
+        expect(rjust_string).to eq("string")
+        expect(rjust_string1).to eq(" string")
+        expect(rjust_string2).to eq("    string")
+      end
+
+      it "adds characters to the right of the string" do
+        string = "string"
+        rjust_type = "*"
+
+        rjust_string = string.rjust(10, rjust_type)
+
+        expect(rjust_string).to eq("****string")
+      end
     end
 
     xdescribe "rpartition" do
