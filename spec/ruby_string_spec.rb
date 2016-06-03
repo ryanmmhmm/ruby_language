@@ -1404,7 +1404,14 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "prepend" do
+    describe "prepend" do
+      it "adds the given string to the front of the desired string by mutating it" do
+        string = "prepend me"
+
+        string.prepend("please ")
+
+        expect(string).to eq("please prepend me")
+      end
     end
 
     xdescribe "replace" do
