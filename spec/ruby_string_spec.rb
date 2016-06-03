@@ -1924,7 +1924,26 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "to_c" do
+    describe "to_c" do
+      it "converts the string's implicit value to a complex number" do
+        number_string = "9001"
+
+        conversion = number_string.to_c
+
+        expect(conversion).to be_a(Complex)
+        expect(conversion).to eq(Complex.polar(9001))
+        expect(conversion).to eq(Complex.rect(9001))
+      end
+
+      it "returns a complex 0 for a junk conversion" do
+        string = "string"
+
+        conversion = string.to_c
+
+        expect(conversion).to be_a(Complex)
+        expect(conversion).to eq(Complex.polar(0))
+        expect(conversion).to eq(Complex.rect(0))
+      end
     end
 
     xdescribe "to_f" do
