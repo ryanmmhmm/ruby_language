@@ -1691,7 +1691,65 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "split" do
+    describe "split" do
+      it "breaks up a string based on the pattern supplied and returns an array" do
+        string = "here are chars"
+
+        splitsville = string.split(" ")
+
+        expect(splitsville).to be_a(Array)
+        expect(splitsville).to eq(["here", "are", "chars"])
+      end
+
+      it "can match on a group of chars defined by a string" do
+        string = "here are chars"
+
+        splitsville = string.split("re")
+
+        expect(splitsville).to be_a(Array)
+        expect(splitsville).to eq(["he", " a", " chars"])
+      end
+
+      it "can split a string into an array of individual chars" do
+        string = "here are chars"
+        array = []
+        string.each_char { |c| array << c }
+
+        splitsville = string.split("")
+
+        expect(splitsville).to be_a(Array)
+        expect(splitsville).to eq(array)
+      end
+
+      it "can split based on regex patterns, with the split occuring where the pattern matches" do
+        string = "here are chars"
+
+        splitsville = string.split(/[aeiou]/)
+        splitsville2 = string.split(/[^aeiou]/)
+
+        expect(splitsville).to be_a(Array)
+        expect(splitsville).to eq(["h", "r", " ", "r", " ch", "rs"])
+        expect(splitsville2).to eq(["", "e", "e", "a", "e", "", "", "a"])       # there's a nuance here with the returns for "", explore this
+      end
+
+      it "can limit the number of splits based on a provided limiter" do
+        string = "here are chars"
+        limiter = 3         # makes three groups of strings
+
+        splitsville = string.split(/[aeiou]/, limiter)
+
+        expect(splitsville).to be_a(Array)
+        expect(splitsville).to eq(["h", "r", " are chars"])
+      end
+
+      it "returns an empty array if the caller is empty" do
+        string = ""
+
+        splitsville = string.split("_Z_")
+
+        expect(splitsville).to be_a(Array)
+        expect(splitsville).to be_empty
+      end
     end
 
     xdescribe "squeeze" do
