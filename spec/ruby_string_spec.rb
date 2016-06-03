@@ -1946,7 +1946,33 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "to_f" do
+    describe "to_f" do
+      it "converts the string's implicit value to a floating point number" do
+        number_string = "12345.6789"
+
+        conversion = number_string.to_f
+
+        expect(conversion).to be_a(Float)
+        expect(conversion).to eq(12345.6789)
+      end
+
+      it "returns 0.0 for a junk conversion" do
+        string = "H4X0R"
+
+        conversion = string.to_f
+
+        expect(conversion).to be_a(Float)
+        expect(conversion).to eq(0.0)
+      end
+
+      it "takes in the numbers before the string becomes junk" do
+        string = "1337H4X0R"
+
+        conversion = string.to_f
+
+        expect(conversion).to be_a(Float)
+        expect(conversion).to eq(1337.0)
+      end
     end
 
     xdescribe "to_i" do
