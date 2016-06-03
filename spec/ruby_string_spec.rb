@@ -2164,6 +2164,7 @@ RSpec.describe RubyString do
     end
 
     xdescribe "unpack" do
+      # unpacks encoding, come back to this when relevant
     end
 
     xdescribe "upcase" do
