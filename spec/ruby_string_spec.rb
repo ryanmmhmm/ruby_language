@@ -2004,7 +2004,33 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "to_r" do
+    describe "to_r" do
+      it "converts the strings implicit value to a rational number" do
+        rational_string = "100/5"
+
+        conversion = rational_string.to_r
+
+        expect(conversion).to be_a(Rational)
+        expect(conversion).to eq(100/5)
+      end
+
+      it "ignores junk if the leading characters are numbers" do
+        rational_string = "100/5asdfasdfasdf"
+
+        conversion = rational_string.to_r
+
+        expect(conversion).to be_a(Rational)
+        expect(conversion).to eq(100/5)
+      end
+
+      it "returns 0/1 for a junk conversion" do
+        rational_string = "asdfasdfasdf"
+
+        conversion = rational_string.to_r
+
+        expect(conversion).to be_a(Rational)
+        expect(conversion).to eq(0/1)
+      end
     end
 
     xdescribe "to_s" do
