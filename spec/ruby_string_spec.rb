@@ -1601,7 +1601,16 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "setbyte" do
+    describe "setbyte" do
+      it "sets the desired byte at string[index] by integer value" do
+        a = "a"
+        a.bytes     #=> [97]
+        "b".bytes   #=> [98]
+
+        a.setbyte(0,98)
+
+        expect(a).to eq("b")
+      end
     end
 
     xdescribe "slice" do
