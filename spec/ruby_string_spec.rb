@@ -1310,7 +1310,51 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "oct" do
+    describe "oct" do
+      it "takes a string of numbers and returns its octal representation" do
+        number_string = "567"
+
+        octal = number_string.oct
+
+        expect(octal).to be_a(Fixnum)
+        expect(octal).to eq(375)
+      end
+
+      it "returns 0 for strings of characters" do
+        character_string = "abcd"
+
+        octal = character_string.oct
+
+        expect(octal).to be_a(Fixnum)
+        expect(octal).to eq(0)
+      end
+
+      it "carries negative values" do
+        number_string = "-567"
+
+        octal = number_string.oct
+
+        expect(octal).to be_a(Fixnum)
+        expect(octal).to eq(-375)
+      end
+
+      it "only pays attention to numbers if characters are present" do
+        char_number_string = "567def"
+
+        octal = char_number_string.oct
+
+        expect(octal).to be_a(Fixnum)
+        expect(octal).to eq(375)
+      end
+
+      it "checks from left to right for numbers and acts accordingly" do
+        char_number_string = "abc567def"
+
+        octal = char_number_string.oct
+
+        expect(octal).to be_a(Fixnum)
+        expect(octal).to eq(0)
+      end
     end
 
     xdescribe "ord" do
