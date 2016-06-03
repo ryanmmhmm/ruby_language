@@ -1268,7 +1268,46 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "next" do
+    describe "next && succ" do
+      it "increases the byte value of the last alphanumeric character by one" do
+        string = "string"
+        string_byte_value = string.bytes
+
+        next_value = string.next
+        next_byte_value = next_value.bytes
+        byte_value_change = string_byte_value.last + 1
+
+        expect(next_value).to eq("strinh")
+        expect(next_byte_value.last).to eq(byte_value_change)
+      end
+
+      it "nest is an alias for succ" do
+        string = "string"
+        string_byte_value = string.bytes
+
+        succ_value = string.succ
+        succ_byte_value = succ_value.bytes
+        byte_value_change = string_byte_value.last + 1
+
+        expect(succ_value).to eq("strinh")
+        expect(succ_byte_value.last).to eq(byte_value_change)
+      end
+
+      it "operates the same on number-strings" do
+        number_string = "12345"
+
+        next_value = number_string.next
+
+        expect(next_value).to eq("12346")
+      end
+
+      it "next! && succ! mutate the string in place" do
+        number_string = "12345"
+
+        number_string.next!
+
+        expect(number_string).to eq("12346")
+      end
     end
 
     xdescribe "oct" do
