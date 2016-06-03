@@ -2133,9 +2133,34 @@ RSpec.describe RubyString do
 
         expect(translation).to eq("helloworld")
       end
+
+      it "tr! mutates the string in place" do
+        string = "\x66\nhello^world\r"
+        from_str = "\x66\n\\^\r"
+        to_str = ""
+
+        string.tr!(from_str, to_str)
+
+        expect(string).to eq("helloworld")
+      end
     end
 
-    xdescribe "tr_s" do
+    describe "tr_s" do
+      it "acts like String#tr but also removes duplicated characters" do
+        hello = "hello"
+
+        tr_single = hello.tr_s("l", "r")
+
+        expect(tr_single).to eq("hero")
+      end
+
+      it "tr_s! mutates the string in place" do
+        hello = "hello"
+
+        hello.tr_s!("l", "r")
+
+        expect(hello).to eq("hero")
+      end
     end
 
     xdescribe "unpack" do
