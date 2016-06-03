@@ -2215,7 +2215,16 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "valid_encoding?" do
+    describe "valid_encoding?" do
+      it "checks to see an encoding on a string is correct" do
+        string = "hello".force_encoding("UTF-8")
+        expect(string.valid_encoding?).to be true
+      end
+
+      it "returns false if it isn't correct" do
+        string = "\x80".force_encoding("UTF-8")
+        expect(string.valid_encoding?).to be false
+      end
     end
   end
 end
