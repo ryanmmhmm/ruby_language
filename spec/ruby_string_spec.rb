@@ -1414,7 +1414,14 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "replace" do
+    describe "replace" do
+      it "replaces the contents of a string with the contents of the desired string, and mutates it in place" do
+        string = "hello"
+
+        string.replace("goodbye")
+
+        expect(string).to eq("goodbye")
+      end
     end
 
     xdescribe "reverse" do
