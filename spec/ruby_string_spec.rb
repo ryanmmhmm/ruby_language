@@ -2043,7 +2043,16 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "to_sym" do
+    describe "to_sym" do
+      # String#intern is an alias
+
+      it "creates a symbol out of the given string" do
+        string ="string thing"
+
+        symbol = string.to_sym
+
+        expect(symbol).to eq(:"string thing")
+      end
     end
 
     xdescribe "tr" do
