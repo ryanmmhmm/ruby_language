@@ -1813,7 +1813,30 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "strip" do
+    describe "strip" do
+      it "removes all whitespace surrounding characters in the string" do
+        string_with_whitespace = "   string   "
+
+        stripped = string_with_whitespace.strip
+
+        expect(stripped).to eq("string")
+      end
+
+      it "whitespace includes null, horizontal tab, line feed, vertical tab, form feed, carriage return and spaces" do
+        string_with_whitespace = "\t\n\v\f\rstring\x00\t\n\v\f\r "
+
+        stripped = string_with_whitespace.strip
+
+        expect(stripped).to eq("string")
+      end
+
+      it "strip! mutates the string in place" do
+        string_with_whitespace = "\t\n\v\f\rstring\x00\t\n\v\f\r "
+
+        string_with_whitespace.strip!
+
+        expect(string_with_whitespace).to eq("string")
+      end
     end
 
     xdescribe "sub" do
