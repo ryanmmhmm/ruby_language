@@ -2033,7 +2033,14 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "to_s" do
+    describe "to_s" do
+      it "returns self" do
+        string = "self"
+
+        conversion = string.to_s
+
+        expect(conversion).to eq("self")
+      end
     end
 
     xdescribe "to_sym" do
