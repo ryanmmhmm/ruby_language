@@ -1424,7 +1424,22 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "reverse" do
+    describe "reverse" do
+      it "reverses the contents of the string" do
+        string = "reverse me"
+
+        reversed = string.reverse
+
+        expect(reversed).to eq("em esrever")
+      end
+
+      it "reverse! mutates the contents in place" do
+        string = "reverse me"
+
+        reversed = string.reverse
+
+        expect(reversed).to eq("em esrever")
+      end
     end
 
     xdescribe "rindex" do
