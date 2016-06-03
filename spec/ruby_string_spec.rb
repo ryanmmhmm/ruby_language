@@ -1975,7 +1975,33 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "to_i" do
+    describe "to_i" do
+      it "converts the string's implicit value to a floating point number" do
+        number_string = "12345.6789"
+
+        conversion = number_string.to_i
+
+        expect(conversion).to be_a(Integer)
+        expect(conversion).to eq(12345)
+      end
+
+      it "will create output for bases 2-36, as long as the caller is of that base" do
+        number_string = "101"
+
+        conversion = number_string.to_i(2)
+
+        expect(conversion).to be_a(Integer)
+        expect(conversion).to eq(5)
+      end
+
+      it "returns 0 for a junk conversion" do
+        number_string = "number string"
+
+        conversion = number_string.to_i
+
+        expect(conversion).to be_a(Integer)
+        expect(conversion).to eq(0)
+      end
     end
 
     xdescribe "to_r" do
