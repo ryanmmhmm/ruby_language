@@ -1357,7 +1357,22 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "ord" do
+    describe "ord" do
+      it "returns the integer ordinal of a one character string" do
+        one_char_string = "O"
+
+        ordinal = one_char_string.ord
+
+        expect(ordinal).to eq(79)
+      end
+
+      it "returns the integer ordinal of the first character in the string, only" do
+        two_char_string = "OG"
+
+        ordinal = two_char_string.ord
+
+        expect(ordinal).to eq(79)
+      end
     end
 
     xdescribe "partition" do
