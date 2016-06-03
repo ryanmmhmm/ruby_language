@@ -1906,7 +1906,22 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "swapcase" do
+    describe "swapcase" do
+      it "literally swaps the case of each character from up to down or down to up" do
+        string = "UP down"
+
+        swapped = string.swapcase
+
+        expect(swapped).to eq("up DOWN")
+      end
+
+      it "swapcase! mutates the string in place" do
+        string = "UP down"
+
+        string.swapcase!
+
+        expect(string).to eq("up DOWN")
+      end
     end
 
     xdescribe "to_c" do
