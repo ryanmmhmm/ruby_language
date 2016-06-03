@@ -1509,7 +1509,33 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "rpartition" do
+    describe "rpartition" do
+      it "starting from the right of the string, it returns an array split on the specified character, returning before, the match, and after" do
+        string = "right split me"
+
+        partitioned = string.rpartition(" ")
+
+        expect(partitioned).to be_a(Array)
+        expect(partitioned).to eq(["right split", " ", "me"])
+      end
+
+      it "returns '' for match and after if the char isn't included in the string" do
+        string = "right split me"
+
+        partitioned = string.rpartition("x")
+
+        expect(partitioned).to be_a(Array)
+        expect(partitioned).to eq(["", "", "right split me"])
+      end
+
+      it "accepts a regex as an argument" do
+        string = "right split me"
+
+        partitioned = string.rpartition(/(split)/)
+
+        expect(partitioned).to be_a(Array)
+        expect(partitioned).to eq(["right ", "split", " me"])
+      end
     end
 
     xdescribe "rstrip" do
