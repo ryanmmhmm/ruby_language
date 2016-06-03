@@ -1556,7 +1556,30 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "scan" do
+    describe "scan" do
+      it "scans the string for a matched pattern and returns an array broken into groups" do
+        string = "the quick brown fox jumps over the lazy dog."
+
+        scanned = string.scan(/\w+/)        # match on every word
+
+        expect(scanned).to eq(["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"])
+      end
+
+      it "scans is highly customizable" do
+        string = "the quick brown fox jumps over the lazy dog."
+
+        scanned = string.scan(/..../)       # 4 * . == 4 character chunks
+
+        expect(scanned).to eq(["the ", "quic", "k br", "own ", "fox ", "jump", "s ov", "er t", "he l", "azy ", "dog."])
+      end
+
+      it "sub-groups are returned as nested arrays" do
+        string = "the quick brown fox jumps over the lazy dog."
+
+        scanned = string.scan(/(..)(..)/)    # 2 * . == 2 character chunks X 2 per grouping
+
+        expect(scanned).to eq([["th", "e "], ["qu", "ic"], ["k ","br"], ["ow","n "], ["fo","x "], ["ju","mp"], ["s ","ov"], ["er"," t"], ["he"," l"], ["az","y "], ["do","g."]])
+      end
     end
 
     xdescribe "scrub" do
