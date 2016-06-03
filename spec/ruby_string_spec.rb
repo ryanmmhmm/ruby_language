@@ -2167,7 +2167,30 @@ RSpec.describe RubyString do
       # unpacks encoding, come back to this when relevant
     end
 
-    xdescribe "upcase" do
+    describe "upcase" do
+      it "upcases things" do
+        lowercase = "happy friday! i'm almost done this class!"
+
+        upcased = lowercase.upcase
+
+        expect(upcased).to eq("HAPPY FRIDAY! I'M ALMOST DONE THIS CLASS!")
+      end
+
+      it "only affects lowercase characters" do
+        mixed_case = "lowercase UPPERCASE"
+
+        upcased = mixed_case.upcase
+
+        expect(upcased).to eq("LOWERCASE UPPERCASE")
+      end
+
+      it "upcase! mutates the string in place" do
+        mixed_case = "lowercase UPPERCASE"
+
+        mixed_case.upcase!
+
+        expect(mixed_case).to eq("LOWERCASE UPPERCASE")
+      end
     end
 
     xdescribe "upto" do
