@@ -1891,7 +1891,8 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "succ" do
+    describe "succ" do
+      #  see 'describe "String#next" do'
     end
 
     xdescribe "sum" do
