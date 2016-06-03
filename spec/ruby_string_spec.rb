@@ -1789,7 +1789,28 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "start_with?" do
+    describe "start_with?" do
+      it "returns true if the string starts with any of the provided prefixes" do
+        string = "string"
+        prefix = "str"
+        prefix1 = "st"
+        prefix2 = "not a match"
+
+        start_with = string.start_with?(prefix, prefix1, prefix2)
+
+        expect(start_with).to be true
+      end
+
+      it "returns false if the string does not start with any of the provided prefixes" do
+        string = "string"
+        prefix = "a"
+        prefix1 = "b"
+        prefix2 = "c"
+
+        start_with = string.start_with?(prefix, prefix1, prefix2)
+
+        expect(start_with).to be false
+      end
     end
 
     xdescribe "strip" do
