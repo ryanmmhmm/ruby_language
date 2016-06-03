@@ -1895,7 +1895,15 @@ RSpec.describe RubyString do
       #  see 'describe "String#next" do'
     end
 
-    xdescribe "sum" do
+    describe "sum" do
+      it "returns the sum of the binary value of each byte" do
+        string = "string"
+
+        sum = string.sum
+
+        expect(sum).to be_a(Integer)
+        expect(sum).to eq(663)
+      end
     end
 
     xdescribe "swapcase" do
