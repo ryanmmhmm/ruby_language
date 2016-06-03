@@ -1752,7 +1752,41 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "squeeze" do
+    describe "squeeze" do
+      it "reduces multiple sequential characters to single characters" do
+        string = "lllllooooollllll"
+
+        squeezed = string.squeeze
+
+        expect(squeezed).to eq("lol")
+      end
+
+      it "reduces multiple sequential characters to single characters, but only for ones specified" do
+        string = "lllllooooollllll"
+        selected = "o"
+
+        squeezed = string.squeeze(selected)
+
+        expect(squeezed).to eq("lllllollllll")
+      end
+
+      it "can act on a range of supplied letters" do
+        alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+        stutter_alphabet = alphabet.chars.each_with_object([]) { |c, memo| memo << c * 2  }.join("")
+        squeezed = stutter_alphabet.squeeze("a-z")
+
+        expect(stutter_alphabet).to eq("aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz")
+        expect(squeezed).to eq(alphabet)
+      end
+
+      it "squeeze! mutates the string in place" do
+        string = "lllllooooollllll"
+
+        string.squeeze!
+
+        expect(string).to eq("lol")
+      end
     end
 
     xdescribe "start_with?" do
