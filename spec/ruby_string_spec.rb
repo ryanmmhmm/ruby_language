@@ -1613,7 +1613,82 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "slice" do
+    describe "slice" do
+      it "pulls a character from the string at string[index]" do
+        string = "string"
+
+        sliced = string.slice(3)
+
+        expect(sliced).to eq("i")
+        expect(string).to eq("string")
+      end
+
+      it "can be given a start and end index position" do
+        string = "string"
+        beginning = 1
+        ending = 4
+
+        sliced = string.slice(beginning, ending)
+
+        expect(sliced).to eq("trin")
+      end
+
+      it "can be given a range" do
+        string = "string"
+        range = (1..4)
+
+        sliced = string.slice(range)
+
+        expect(sliced).to eq("trin")
+      end
+
+      it "can be given a regex" do
+        string = "string"
+        regex = /(trin)/
+
+        sliced = string.slice(regex)
+
+        expect(sliced).to eq("trin")
+      end
+
+      it "can be given a regex and capture value" do
+        string = "string"
+        regex = /[aeiou](.)/
+        capture = 0
+        capture2 = 1
+
+        sliced = string.slice(regex, capture)
+        sliced_2 = string.slice(regex, capture2)
+
+        expect(sliced).to eq("in")
+        expect(sliced_2).to eq("n")
+      end
+
+      it "can be given matcher string" do
+        string = "string"
+        regex = "trin"
+
+        sliced = string.slice(regex)
+
+        expect(sliced).to eq("trin")
+      end
+
+      it "returns nil if the match isn't found" do
+        string = "string"
+
+        sliced = string.slice(30)
+
+        expect(sliced).to be nil
+      end
+
+      it "slice! mutates the string in place and returns the string with the match removed" do
+        string = "string"
+        regex = /(trin)/
+
+        string.slice!(regex)
+
+        expect(string).to eq("sg")
+      end
     end
 
     xdescribe "split" do
