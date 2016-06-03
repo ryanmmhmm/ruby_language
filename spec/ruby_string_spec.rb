@@ -1582,7 +1582,23 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "scrub" do
+    describe "scrub" do
+      ## more complex byte stuff that i still need to learn, taking this verbatim from docs
+      it "replaces invalid bytes with desired replacement character" do
+        invalid_byte_string = "abc\u3042\x81"
+
+        scrubbed = invalid_byte_string.scrub
+
+        expect(scrubbed).to eq("abc\u3042\uFFFD")
+      end
+
+      it "scrub! mutates string in place, replaces invalid bytes with desired replacement character" do
+        invalid_byte_string = "abc\u3042\x81"
+
+        invalid_byte_string.scrub!
+
+        expect(invalid_byte_string).to eq("abc\u3042\uFFFD")
+      end
     end
 
     xdescribe "setbyte" do
