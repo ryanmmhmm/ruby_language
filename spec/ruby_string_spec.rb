@@ -2193,7 +2193,26 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "upto" do
+    describe "upto" do
+      it "makes a series of things, works best with .to_a" do
+        up_to = "a".upto("g")
+
+        arrayify = up_to.to_a
+
+        expect(arrayify).to eq(["a", "b", "c", "d", "e", "f", "g"])
+      end
+
+      it "returns an Enumerator if you don't call .to_a" do
+        up_to = "a".upto("g")
+
+        expect(up_to).to be_a(Enumerator)
+      end
+
+      it "returns an empty array if there's nothing to 'upto' to" do
+        up_to = "a".upto("g")
+
+        expect(up_to).to be_a(Enumerator)
+      end
     end
 
     xdescribe "valid_encoding?" do
