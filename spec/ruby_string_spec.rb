@@ -1538,7 +1538,22 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "rstrip" do
+    describe "rstrip" do
+      it "removes the white space from the right side of a string" do
+        string_with_whitespace = "string      "
+
+        stripped = string_with_whitespace.rstrip
+
+        expect(stripped).to eq("string")
+      end
+
+      it "doesn't remove any whitespace on the left side of the chars" do
+        string_with_whitespace = "   string      "
+
+        stripped = string_with_whitespace.rstrip
+
+        expect(stripped).to eq("   string")
+      end
     end
 
     xdescribe "scan" do
