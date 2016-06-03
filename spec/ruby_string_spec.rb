@@ -1442,10 +1442,48 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "rindex" do
-    end
+    describe "rindex" do
+      it "returns the index of the _last_ occurrence of the given substring" do
+        string = "the quick brown fox jumps over the lazy dog."
+        substring = "."
 
-    xdescribe "rindex" do
+        rindex = string.rindex(substring)
+
+        expect(string.length).to eq(44)
+        expect(rindex).to be_a(Fixnum)
+        expect(rindex).to eq(43)
+
+      end
+
+      it "returns the index of the _last_ occurrence of the given regex" do
+        string = "the quick brown fox jumps over the la_zy dog."
+        regex = /[a]/
+
+        rindex = string.rindex(regex)
+
+        expect(rindex).to be_a(Fixnum)
+        expect(rindex).to eq(36)
+      end
+
+      it "returns nil if the match is not found" do
+        string = "the quick brown fox jumps over the lazy dog."
+        regex = /[Z]/
+
+        rindex = string.rindex(regex)
+
+        expect(rindex).to be nil
+      end
+
+      it "returns the index of the _last_ occurrence of the given regex, with an offset from string[#]" do
+        string = "the quick brown fox jumps over the lazy dog."
+        regex = /[.]/
+        offset = -5
+
+        rindex = string.rindex(regex, offset)
+
+        expect(rindex).to be nil
+        expect(offset).to be_a(Fixnum)
+      end
     end
 
     xdescribe "rjust" do
