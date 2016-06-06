@@ -48,7 +48,28 @@ RSpec.describe Enumerator do
       end
     end
 
-    xdescribe "#each_with_object" do
+    describe "#each_with_object" do
+      it "also known as the memo pattern, it allows you to easily pass in a new object" do
+        array = ["1", "2", "3", "4"]
+        hash = {}
+
+        array.each_with_object(hash) { |char, memo| memo[char.to_sym] = char }
+
+        expect(hash).to be_a(Hash)
+        expect(hash[:"1"]).to eq("1")
+        expect(hash[:"2"]).to eq("2")
+        expect(hash[:"3"]).to eq("3")
+        expect(hash[:"4"]).to eq("4")
+      end
+
+      it "returns an Enumerator object if there is no block" do
+        array = ["1", "2", "3", "4"]
+        hash = {}
+
+        result = array.each_with_object(hash)
+
+        expect(result).to be_a(Enumerator)
+      end
     end
 
     xdescribe "#feed" do
