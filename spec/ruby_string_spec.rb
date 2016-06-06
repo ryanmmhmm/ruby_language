@@ -2,7 +2,7 @@ require 'ruby_string'
 
 RSpec.describe RubyString do
   context "Public Methods" do
-    describe "new" do
+    describe ".new" do
       it "creates a new instance of string" do
         string1 = String.new
         string2 = String.new
@@ -11,7 +11,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "try_convert" do
+    describe ".try_convert" do
       it "trys to convert an object into a string" do
         class RubyString
           def to_str
@@ -43,7 +43,7 @@ RSpec.describe RubyString do
   end
 
   context "OPERATORS" do
-    describe "string \% argument" do
+    describe "'string' \% argument" do
       # uses kernel::sprintf as per docs, incomplete understanding of this as of now
 
       it "subs integer input into a string with significant figures" do
@@ -67,7 +67,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "string * integer" do
+    describe "'string' * integer" do
       it "multiplies the content of a string" do
         string = "Three"
 
@@ -77,7 +77,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "string + other_string" do
+    describe "'string' + other_string" do
       it "concats two strings together" do
         first = "first"
         space = " "
@@ -106,7 +106,7 @@ RSpec.describe RubyString do
       # more to explore here but concentrate on it later
     end
 
-    describe "string << " do
+    describe "'string' << " do
       it "can add 'integers' to strings" do
         string = "string"
 
@@ -127,7 +127,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe " <=> (saucer operator)" do
+    describe "'string' <=> (saucer operator)" do
       it "compares two strings together and returns a relative value" do
         all_caps = "ASDF"
         lower_case = "asdf"
@@ -166,7 +166,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "string == object" do
+    describe "'string' == object" do
       it "compares equality of two strings" do
         string = "hello"
 
@@ -188,7 +188,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "string === object" do
+    describe "'string' === object" do
       it "compares equality of two strings" do
         string = "hello"
         string2 = "hello"
@@ -214,7 +214,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "string =~ object" do
+    describe "'string' =~ object" do
       it "it returns the index of the string for the first match with a regex" do
         string = "where am I mr. regex?"
 
@@ -348,7 +348,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "string.b" do
+    describe "String#b" do
       it "returns a copied string" do
         string = "string"
         expect(string.b.object_id).not_to eq(string.object_id)
@@ -366,7 +366,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "string.bytes" do
+    describe "String#bytes" do
       it "returns an array of the bytes of the string" do
         string = "bytes"
 
@@ -386,7 +386,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "bytesize" do
+    describe "String#bytesize" do
       it "returns the length in number of bytes" do
         length_5 = "hello"
         expect(length_5.bytesize).to eq(5)
@@ -398,7 +398,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "byteslice" do
+    describe "String#byteslice" do
       it "slices the string on index of bytes" do
         string = "string"
 
@@ -428,7 +428,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "capitalize" do
+    describe "String#capitalize" do
       it "returns the humanized version of the string with the first letter being capitalized" do
         hello = "hello"
         goodbye = "GOODBYE"
@@ -457,7 +457,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "casecmp" do
+    describe "String#casecmp" do
       it "compares strings, ignoring case sensitivity" do
         string = "string"
         string1 = "string1"
@@ -471,7 +471,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "center" do
+    describe "String#center" do
       it "centers a string with desired padding" do
         string = "centered"   # 8 chars long
         under_size = 2        # expect no padding and all letters of string
@@ -504,7 +504,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "chars" do
+    describe "String#chars" do
       it "returns an Array of characters" do
         string = "string"
 
@@ -514,7 +514,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "chomp" do
+    describe "String#chomp" do
       it "removes the last record separator from a string (like \\n for new line)" do
         string = "end of string\n"
 
@@ -572,7 +572,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "chop" do
+    describe "String#chop" do
       it "acts like chomp but more aggressively" do
         string = "string\r\n"
 
@@ -606,7 +606,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "chr" do
+    describe "String#chr" do
       it "returns a one character string from the beginning of the string provided" do
         hello = "hello"
 
@@ -624,7 +624,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "clear" do
+    describe "String#clear" do
       it "empties the contents of a string" do
         string = "string"
 
@@ -634,7 +634,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "codepoints" do
+    describe "String#codepoints" do
       it "returns an array of integer ordinals" do
         string = "string"
 
@@ -644,7 +644,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "concat" do
+    describe "String#concat" do
       it "appends a string to a string" do
         string = "Original"
         append_me = "Gangster"
@@ -679,7 +679,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "count" do
+    describe "String#count" do
       it "counts the occurances of chacaters in a string" do
         string = "four"
         look_for = "o"
@@ -701,11 +701,11 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "crypt" do
+    xdescribe "String#crypt" do
       # makes a cryptographic hash with a salt
     end
 
-    describe "delete" do
+    describe "String#delete" do
       it "removes all the desired value(s) from a string" do
         hello = "hello"
 
@@ -745,7 +745,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "downcase" do
+    describe "String#downcase" do
       it "makes all characters lowercase" do
         upper_case = "WHOAAAAAH!!!"
 
@@ -763,7 +763,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "dump" do
+    describe "String#dump" do
       it "produces a version of the string with all non-printing characters replaced by \\nnn notation and all special characters escaped." do
         string_with_things = "hello \n ''"
 
@@ -773,7 +773,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "each_byte" do
+    describe "String#each_byte" do
       it "enumerates on each byte of the string" do
         string = "lots of bytes"
         string_bytes = string.bytes
@@ -793,7 +793,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "each_char" do
+    describe "String#each_char" do
       it "enumerates on each character of the string" do
         string = "lots of characters"
         string_array = string.split('')
@@ -813,7 +813,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "each_codepoint" do
+    describe "String#each_codepoint" do
       it "enumerates on each character of the string as an ordinal" do
         string = "lots of characters"
         ordinal_array = string.split('').map.each { |c| c = c.ord }
@@ -833,7 +833,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "each_line" do
+    describe "String#each_line" do
       it "enumerates on each new line of the string" do
         string = "lots\nof\nnew\nlines"
 
@@ -852,7 +852,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "empty?" do
+    describe "String#empty?" do
       it "returns true if a string is empty" do
         string = ""
 
@@ -870,18 +870,18 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "encode" do
+    xdescribe "String#encode" do
       # encodes things and gives you information about it
     end
 
-    describe "encoding" do
+    describe "String#encoding" do
       it "returns the Encoding type" do
         utf_8_string = "I'm UTF-8!".force_encoding(Encoding::UTF_8)
         expect(utf_8_string.encoding).to be Encoding::UTF_8
       end
     end
 
-    describe "end_with?" do
+    describe "String#end_with?" do
       it "returns true if the string ends with the value provided" do
         string = "string"
 
@@ -915,7 +915,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "eql?" do
+    describe "String#eql?" do
       it "determines if two strings are equal by length and content" do
         string1 = "string"
         string2 = "string"
@@ -944,7 +944,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "force_encoding" do
+    describe "String#force_encoding" do
       it "forces the encoding of a string to be of type specified" do
         utf_8_string = "i'm UTF-8".force_encoding("UTF-8")
         ascii_string = "i'm ASCII".force_encoding("ASCII-8BIT")
@@ -954,7 +954,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "freeze" do
+    describe "String#freeze" do
       it "prevents strings from being modified" do
         string = "freeze me"
 
@@ -977,7 +977,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "getbyte" do
+    describe "String#getbyte" do
       it "returns the indexth byte as an integer" do
         string = "string"
         byte_value = "t".bytes.first
@@ -989,7 +989,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "gsub" do
+    describe "String#gsub" do
       it "does a regular expression search and replace on the string" do
         ## not going to dive deep into regex here, that's being saved for another spec
         string = "I need a coffee"
@@ -1027,7 +1027,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "hash" do
+    describe "String#hash" do
       it "returns a hash based on the strings content, length and encoding" do
         math_hash = "string".hash       #  these ain't your key-value pair kind hashes
         math_hash2 = "string".hash
@@ -1038,7 +1038,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "hex" do
+    describe "String#hex" do
       it "converts a 'hex' string into an integer" do
         hex_string_representation = "0x08"
         hex_string_representation1 = "08"
@@ -1054,7 +1054,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "include?" do
+    describe "String#include?" do
       it "returns true if it includes the specified values" do
         string = "abcdefghijklmnopqrstuvwxyz"
 
@@ -1079,7 +1079,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "index" do
+    describe "String#index" do
       it "returns the index of the first occurance of a given substring" do
         string = "index at '10' will return 10"           # see what I did there?
         substring = "10"
@@ -1112,7 +1112,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "replace" do
+    describe "String#replace" do
       it "replaces the contents of one string with another by mutating the caller" do
         string = "this is all going to go bye-bye"
         replacement = "a"
@@ -1123,7 +1123,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "insert" do
+    describe "String#insert" do
       it "inserts a string at the index location of the caller string" do
         string = "sub something in between these __ things"
         index = string.index("__") + 1
@@ -1135,7 +1135,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "inspect" do
+    describe "String#inspect" do
       it "returns a printable version of string, surrounded by quites and with special chars escaped" do
         string = "this string that you see\nis a bad kind of haiku\ni'm still not famous"
 
@@ -1145,7 +1145,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "intern" do
+    describe "String#intern" do
       it "creates an associated symbol from the given string" do
         string = "new_symbol"
 
@@ -1165,7 +1165,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "length" do
+    describe "String#length" do
       it "returns the length of the string as an integer" do
         string = "length"
 
@@ -1185,7 +1185,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "lines" do
+    describe "String#lines" do
       it "is a short-hand for String#each_line.to_a" do
         string = "lots\nof\nnew\nlines"
 
@@ -1205,7 +1205,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "ljust (left justify)" do
+    describe "String#ljust (left justify)" do
       it "adds characters to the right of the string" do
         string = "string"
 
@@ -1228,7 +1228,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "lstrp (left strip)" do
+    describe "String#lstrp (left strip)" do
       it "strips the white space from the left side of a string" do
         string_with_whitespace = "          string  "
 
@@ -1246,7 +1246,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "match" do
+    describe "String#match" do
       it "matches on a regex and returns a MatchData object" do
         string = "find the regex in this string"
 
@@ -1268,7 +1268,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "next && succ" do
+    describe "String$#next && #succ" do
       it "increases the byte value of the last alphanumeric character by one" do
         string = "string"
         string_byte_value = string.bytes
@@ -1310,7 +1310,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "oct" do
+    describe "String#oct" do
       it "takes a string of numbers and returns its octal representation" do
         number_string = "567"
 
@@ -1357,7 +1357,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "ord" do
+    describe "String#ord" do
       it "returns the integer ordinal of a one character string" do
         one_char_string = "O"
 
@@ -1375,7 +1375,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "partition" do
+    describe "String#partition" do
       it "returns an array split on the specified character, returning before, the match, and after" do
         string = "split me"
 
@@ -1404,7 +1404,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "prepend" do
+    describe "String#prepend" do
       it "adds the given string to the front of the desired string by mutating it" do
         string = "prepend me"
 
@@ -1414,7 +1414,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "replace" do
+    describe "String#replace" do
       it "replaces the contents of a string with the contents of the desired string, and mutates it in place" do
         string = "hello"
 
@@ -1424,7 +1424,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "reverse" do
+    describe "String#reverse" do
       it "reverses the contents of the string" do
         string = "reverse me"
 
@@ -1442,7 +1442,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "rindex" do
+    describe "String#rindex" do
       it "returns the index of the _last_ occurrence of the given substring" do
         string = "the quick brown fox jumps over the lazy dog."
         substring = "."
@@ -1486,7 +1486,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "rjust" do
+    describe "String#rjust" do
       it "adds characters to the left of the string" do
         string = "string"
 
@@ -1509,7 +1509,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "rpartition" do
+    describe "String#rpartition" do
       it "starting from the right of the string, it returns an array split on the specified character, returning before, the match, and after" do
         string = "right split me"
 
@@ -1538,7 +1538,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "rstrip" do
+    describe "String#rstrip" do
       it "removes the white space from the right side of a string" do
         string_with_whitespace = "string      "
 
@@ -1556,7 +1556,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "scan" do
+    describe "String#scan" do
       it "scans the string for a matched pattern and returns an array broken into groups" do
         string = "the quick brown fox jumps over the lazy dog."
 
@@ -1582,7 +1582,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "scrub" do
+    describe "String#scrub" do
       ## more complex byte stuff that i still need to learn, taking this verbatim from docs
       it "replaces invalid bytes with desired replacement character" do
         invalid_byte_string = "abc\u3042\x81"
@@ -1601,7 +1601,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "setbyte" do
+    describe "String#setbyte" do
       it "sets the desired byte at string[index] by integer value" do
         a = "a"
         a.bytes     #=> [97]
@@ -1613,7 +1613,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "slice" do
+    describe "String#slice" do
       it "pulls a character from the string at string[index]" do
         string = "string"
 
@@ -1691,7 +1691,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "split" do
+    describe "String#split" do
       it "breaks up a string based on the pattern supplied and returns an array" do
         string = "here are chars"
 
@@ -1752,7 +1752,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "squeeze" do
+    describe "String#squeeze" do
       it "reduces multiple sequential characters to single characters" do
         string = "lllllooooollllll"
 
@@ -1789,7 +1789,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "start_with?" do
+    describe "String#start_with?" do
       it "returns true if the string starts with any of the provided prefixes" do
         string = "string"
         prefix = "str"
@@ -1813,7 +1813,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "strip" do
+    describe "String#strip" do
       it "removes all whitespace surrounding characters in the string" do
         string_with_whitespace = "   string   "
 
@@ -1839,7 +1839,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "sub" do
+    describe "String#sub" do
       it "substitutes the value provided into the string into the _FIRST_ corresponding match point" do
         string = "theres a lot of subtitution points in here"
         matcher = " "
@@ -1891,11 +1891,11 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "succ" do
+    describe "String#succ" do
       #  see 'describe "String#next" do'
     end
 
-    describe "sum" do
+    describe "String#sum" do
       it "returns the sum of the binary value of each byte" do
         string = "string"
 
@@ -1906,7 +1906,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "swapcase" do
+    describe "String#swapcase" do
       it "literally swaps the case of each character from up to down or down to up" do
         string = "UP down"
 
@@ -1915,7 +1915,7 @@ RSpec.describe RubyString do
         expect(swapped).to eq("up DOWN")
       end
 
-      it "swapcase! mutates the string in place" do
+      it "String#swapcase! mutates the string in place" do
         string = "UP down"
 
         string.swapcase!
@@ -1924,7 +1924,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "to_c" do
+    describe "String#to_c" do
       it "converts the string's implicit value to a complex number" do
         number_string = "9001"
 
@@ -1946,7 +1946,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "to_f" do
+    describe "String#to_f" do
       it "converts the string's implicit value to a floating point number" do
         number_string = "12345.6789"
 
@@ -1975,7 +1975,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "to_i" do
+    describe "String#to_i" do
       it "converts the string's implicit value to a floating point number" do
         number_string = "12345.6789"
 
@@ -2004,7 +2004,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "to_r" do
+    describe "String#to_r" do
       it "converts the strings implicit value to a rational number" do
         rational_string = "100/5"
 
@@ -2033,7 +2033,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "to_s" do
+    describe "String#to_s" do
       it "returns self" do
         string = "self"
 
@@ -2043,7 +2043,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "to_sym" do
+    describe "String#to_sym" do
       # String#intern is an alias
 
       it "creates a symbol out of the given string" do
@@ -2055,7 +2055,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "tr" do
+    describe "String#tr" do
       it "translates characters in a string from and to values provided" do
         string = "abcdefg"
 
@@ -2145,7 +2145,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "tr_s" do
+    describe "String#tr_s" do
       it "acts like String#tr but also removes duplicated characters" do
         hello = "hello"
 
@@ -2163,11 +2163,11 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "unpack" do
+    xdescribe "String#unpack" do
       # unpacks encoding, come back to this when relevant
     end
 
-    describe "upcase" do
+    describe "String#upcase" do
       it "upcases things" do
         lowercase = "happy friday! i'm almost done this class!"
 
@@ -2193,7 +2193,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "upto" do
+    describe "String#upto" do
       it "makes a series of things, works best with .to_a" do
         up_to = "a".upto("g")
 
@@ -2215,7 +2215,7 @@ RSpec.describe RubyString do
       end
     end
 
-    describe "valid_encoding?" do
+    describe "String#valid_encoding?" do
       it "checks to see an encoding on a string is correct" do
         string = "hello".force_encoding("UTF-8")
         expect(string.valid_encoding?).to be true
