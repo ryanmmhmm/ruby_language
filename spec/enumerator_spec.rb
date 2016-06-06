@@ -27,7 +27,25 @@ RSpec.describe Enumerator do
       end
     end
 
-    xdescribe "#each_with_index" do
+    describe "#each_with_index" do
+      it "iterates over the set called upon with the block provided while tracking the index" do
+        array = ["this one", "that one", "which one", "what?"]
+
+        output = []
+        index_array = []
+        array.each_with_index { |string, index| output << string; index_array << index }
+
+        expect(index_array).to eq([0,1,2,3])
+        expect(output).to eq(["this one", "that one", "which one", "what?"])
+      end
+
+      it "returns an Enumerator object if there is no block" do
+        array = ["this one", "that one", "which one", "what?"]
+
+        result = array.each_with_index
+
+        expect(result).to be_a(Enumerator)
+      end
     end
 
     xdescribe "#each_with_object" do
