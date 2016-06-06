@@ -870,8 +870,62 @@ RSpec.describe RubyString do
       end
     end
 
-    xdescribe "String#encode" do
-      # encodes things and gives you information about it
+    describe "String#encode" do
+      it "changes the encoding of a string " do
+        string = "this is a string"
+
+        from_encoding = "UTF-8"
+        to_encoding = "ASCII-8BIT"
+
+        new_encoding = string.encode(to_encoding, from_encoding)
+
+        expect(string.encoding).to be Encoding::UTF_8
+        expect(new_encoding.encoding).to be Encoding::ASCII_8BIT
+      end
+
+      it "can do this short-hand by just naming the destination encoding" do
+        string = "this is a string"
+
+        to_encoding = "ASCII-8BIT"
+
+        new_encoding = string.encode(to_encoding)
+
+        expect(string.encoding).to be Encoding::UTF_8
+        expect(new_encoding.encoding).to be Encoding::ASCII_8BIT
+      end
+
+      it "will change the bytes within a string according to an encoding map" do
+        string = "Código Descrição Cliente Família"
+
+        new_encoding = string.encode(Encoding::ISO8859_15)
+
+        expect(string.bytes).to eq([67, 195, 179, 100, 105, 103, 111, 32, 68, 101, 115, 99, 114, 105, 195, 167, 195, 163, 111, 32, 67, 108, 105, 101, 110, 116, 101, 32, 70, 97, 109, 195, 173, 108, 105, 97])
+        expect(new_encoding.bytes).to eq([67, 243, 100, 105, 103, 111, 32, 68, 101, 115, 99, 114, 105, 231, 227, 111, 32, 67, 108, 105, 101, 110, 116, 101, 32, 70, 97, 109, 237, 108, 105, 97])
+        expect(new_encoding.encoding).to be Encoding::ISO8859_15
+        expect(new_encoding.dump).to eq("C\xF3digo Descri\xE7\xE3o Cliente Fam\xEDlia".dump)
+      end
+
+      it "will throw an error if characters do not map correctly" do
+        unmapped_in_ascii = "¯¯¯"
+
+        expect{ unmapped_in_ascii.encode(Encoding::ASCII_8BIT) }.to raise_error(Encoding::UndefinedConversionError, /from UTF-8 to ASCII-8BIT/)
+      end
+
+      it "can replace undefined characters with a specified character" do
+        unmapped_in_ascii = "¯¯¯"
+
+        replace_unmapped = unmapped_in_ascii.encode(Encoding::ASCII_8BIT, undef: :replace, replace: "-")
+
+        expect(replace_unmapped).to eq("---")
+      end
+
+      it "another example of an undefined character replaced with a specified character" do
+        unmapped_in_ISO_8859_15 = "ʕʕʕ"
+
+        replace_unmapped = unmapped_in_ISO_8859_15.encode(Encoding::ISO8859_15, undef: :replace, replace: "-")
+
+        expect(replace_unmapped).to eq("---")
+      end
     end
 
     describe "String#encoding" do
