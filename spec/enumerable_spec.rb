@@ -248,7 +248,23 @@ RSpec.describe Enumerable do
 
     end
 
-    xdescribe "#drop_while" do
+    describe "#drop_while" do
+      it "returns an array, dropping elements until the block condition is satisfied" do
+        theres_only_one_six = [1,2,3,4,5,6,7,8,9,0]
+
+        dropped = theres_only_one_six.drop_while { |val| val != 6 }
+
+        expect(dropped).to be_a(Array)
+        expect(dropped).to eq([6,7,8,9,0])
+      end
+
+      it "returns an Enumerator object if no block is supplied" do
+        theres_only_one_six = [1,2,3,4,5,6,7,8,9,0]
+
+        dropped = theres_only_one_six.drop_while
+
+        expect(dropped).to be_a(Enumerator)
+      end
     end
 
     xdescribe "#each_cons" do
