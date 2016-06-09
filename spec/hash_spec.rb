@@ -1,4 +1,4 @@
-Rspec.describe Hash do
+RSpec.describe Hash do
   context "Public Class Methods" do
     xdescribe "Hash[ ]" do
     end
