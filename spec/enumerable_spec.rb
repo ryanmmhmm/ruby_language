@@ -211,7 +211,41 @@ RSpec.describe Enumerable do
       end
     end
 
-    xdescribe "#drop" do
+    describe "#drop(n)" do
+      it "returns an array excluding the elements from index 0 - (n-1)" do
+        array = [1] * 5
+
+        dropped = array.drop(3)
+
+        expect(dropped).to be_a(Array)
+        expect(dropped).to eq([1,1])
+      end
+
+      it "can accept inputs in other ways" do
+        input = (1..5)
+        input2 = "string"
+
+        dropped = input.drop(3)
+        dropped2 = input2.each_char.drop(3).join('')
+
+        expect(dropped).to eq([4,5])
+        expect(dropped2).to eq("ing")
+      end
+
+      it "raises an error if 'n' is negative" do
+        array = [1] * 5
+
+        expect{ array.drop(-3) }.to raise_error(ArgumentError, /attempt to drop negative size/)
+      end
+
+      it "raises an error if no value for 'n' is provided" do
+        array = [5] * 5
+
+        expect{ array.drop }.to raise_error(ArgumentError, /.*(wrong number of arguments)+.*(expected 1)+.*/)
+        expect{ array.drop }.to raise_error(ArgumentError, "wrong number of arguments (given 0, expected 1)")  # or for those who like matching errors with strings
+      end
+
+
     end
 
     xdescribe "#drop_while" do
