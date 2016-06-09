@@ -1,6 +1,45 @@
 RSpec.describe Enumerable do
   context "Public Instance Methods" do
-    xdescribe "#all?" do
+    describe "#all?" do
+      it "yields to the block each value of the specified input and returns true if all pass" do
+        words_of_different_lengths = %W(a be see deed)
+
+        enum_all = words_of_different_lengths.all? { |word| word.length < 5 }
+
+        expect(enum_all).to be true
+      end
+
+      it "returns false if there a single value that does not meet the required criteria" do
+        words_of_different_lengths = %W(a be see deed fiver)
+
+        enum_all = words_of_different_lengths.all? { |word| word.length < 5 }
+
+        expect(enum_all).to be false
+      end
+
+      it "returns true if no block given and all content is truthy" do
+        words_of_different_lengths = %W(a be see deed fiver)
+
+        enum_all = words_of_different_lengths.all?
+
+        expect(enum_all).to be true
+      end
+
+      it "returns true for values other than strings" do
+        inputs = [Array.new, Hash.new, 1, 1.0, true]
+
+        enum_all = inputs.all?
+
+        expect(enum_all).to be true
+      end
+
+      it "returns false if no block given and content is false or nil" do
+        falsey_input = [false, nil, true]
+
+        enum_all = falsey_input.all?
+
+        expect(enum_all).to be false
+      end
     end
 
     xdescribe "#any?" do
