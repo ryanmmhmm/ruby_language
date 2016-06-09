@@ -94,7 +94,31 @@ RSpec.describe Enumerable do
       end
     end
 
-    xdescribe "#collect_concat" do
+    describe "#collect_concat" do
+      it "returns an array with the concatinated results of running the block once for every element in enum" do
+        months = [ "January", "February" ]
+        temperature = "is cold"
+
+        concatonated_results = months.collect_concat { |enum| enum + " " + temperature }
+
+        expect(concatonated_results).to eq(["January is cold", "February is cold"])
+      end
+
+      it "can do other cool stuff" do
+        numbers = (1..5).to_a
+
+        double_jump = numbers.collect_concat { |enum| [enum, enum * 2] }
+
+        expect(double_jump).to eq([1, 2, 2, 4, 3, 6, 4, 8, 5, 10])
+      end
+
+      it "returns an Enumerator if no block is supplied" do
+        months = %W(January February March)
+
+        enumerator_object = months.collect_concat
+
+        expect(enumerator_object).to be_a(Enumerator)
+      end
     end
 
     xdescribe "#count" do
