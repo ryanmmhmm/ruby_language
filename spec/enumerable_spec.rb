@@ -326,6 +326,7 @@ RSpec.describe Enumerable do
     end
 
     xdescribe "#find_all" do
+      # alias for select, see Enumerable#select in this file.
     end
 
     xdescribe "#find_index" do
