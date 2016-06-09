@@ -68,7 +68,30 @@ RSpec.describe Enumerable do
       ## this is a monster of an Enum. fill out when a use case is recognized for better understanding.
     end
 
-    xdescribe "#collect" do
+    describe "#collect" do
+      it "yields to the block the value of the inputs and returns an array" do
+        feelings = %W(grumpy hungry purring sleeping athletic)
+
+        kinds_of_cats = feelings.collect { |f| f + " cat" }
+
+        expect(kinds_of_cats).to eq(["grumpy cat", "hungry cat", "purring cat", "sleeping cat", "athletic cat"])
+      end
+
+      it "can replace all values" do
+        feelings = %W(grumpy hungry purring sleeping athletic)
+
+        replaced_cats = feelings.collect { "asdf" }
+
+        expect(replaced_cats).to eq(["asdf"]*5)
+      end
+
+      it "returns an Enumerator if no block is supplied" do
+        months = %W(January February March)
+
+        enumerator_object = months.collect
+
+        expect(enumerator_object).to be_a(Enumerator)
+      end
     end
 
     xdescribe "#collect_count" do
