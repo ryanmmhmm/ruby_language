@@ -184,7 +184,31 @@ RSpec.describe Enumerable do
       end
     end
 
-    xdescribe "#detect" do
+    describe "#detect(ifnone)" do
+      it "returns the first value for which the block is not false" do
+        scope = (1..10)
+
+        detected = scope.detect { |val| val == 5 }
+
+        expect(detected).to eq(5)
+      end
+
+      it "returns nil if there is no match from the block" do
+        scope = (1..10)
+
+        detected = scope.detect { |val| val == 9001 }
+
+        expect(detected).to be nil
+      end
+
+      it "returns ifnone if there is no match from the block and ifnone is defined (ifnone must be a lambda or proc)" do
+        scope = (1..10)
+        ifnone = ->() { "nope!" }  #or lambda { "nope!" }
+
+        detected = scope.detect(ifnone) { |val| val == 9001 }
+
+        expect(detected).to eq("nope!")
+      end
     end
 
     xdescribe "#drop" do
