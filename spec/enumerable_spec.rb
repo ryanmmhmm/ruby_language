@@ -44,9 +44,9 @@ RSpec.describe Enumerable do
 
     describe "#any?" do
       it "inverse of #all?, returns true for any inputs that meet the critera of the block" do
-        inputs = [Array.new, Hash.new, 1, 1.0, true]
+        inputs = [Array.new, Hash.new, 1, 1.0, false]
 
-        enum_any = inputs.any? { |i| i == true }
+        enum_any = inputs.any? { |i| i == false }
 
         expect(enum_any).to be true
       end
@@ -244,8 +244,6 @@ RSpec.describe Enumerable do
         expect{ array.drop }.to raise_error(ArgumentError, /.*(wrong number of arguments)+.*(expected 1)+.*/)
         expect{ array.drop }.to raise_error(ArgumentError, "wrong number of arguments (given 0, expected 1)")  # or for those who like matching errors with strings
       end
-
-
     end
 
     describe "#drop_while" do
