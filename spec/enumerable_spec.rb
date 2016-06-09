@@ -277,7 +277,25 @@ RSpec.describe Enumerable do
     xdescribe "#each_with_index" do
     end
 
-    xdescribe "#each_with_object" do
+    describe "#each_with_object" do
+      it "constructs an object from the enumerated data" do
+        alphabet = ("a".."z").to_a
+
+        counter = 1
+        alphahash = alphabet.each_with_object({}) { |c, hash| hash[c.intern] = counter; counter += 1 }
+
+        expect(alphahash).to be_a(Hash)
+        expect(alphahash[:a]).to eq(1)
+        expect(alphahash[:z]).to eq(26)
+      end
+
+      it "returns an Enumerator if no block is provided" do
+        alphabet = ("a".."z").to_a
+
+        alphahash = alphabet.each_with_object({})
+
+        expect(alphahash).to be_a(Enumerator)
+      end
     end
 
     xdescribe "#entries" do
