@@ -155,7 +155,33 @@ RSpec.describe Enumerable do
       end
     end
 
-    xdescribe "#cycle" do
+    describe "#cycle(n)" do
+      it "can cycle forever with (1..2).cycle { |val| puts val } unless interrupted" do
+        # trust me....
+      end
+
+      it "will cycle a limtited number of times according to the value of 'n' provided" do
+        n = 5
+        thing_to_cycle = [1]
+
+        cycled_thing = []
+        thing_to_cycle.cycle(n) { |thing| cycled_thing << thing }
+
+        expect(cycled_thing).to eq([1]*5)
+      end
+
+      it "returns nil if the loop completes without interruption" do
+        n = 5
+        thing_to_cycle = [1]
+
+        nil_please = thing_to_cycle.cycle(n) { |thing| thing }
+
+        expect(nil_please).to be nil
+      end
+
+      it "returns an Enumerator object if no block is provided" do
+        expect((1..2).cycle(3)).to be_a(Enumerator)
+      end
     end
 
     xdescribe "#detect" do
