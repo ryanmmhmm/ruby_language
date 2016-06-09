@@ -61,9 +61,11 @@ RSpec.describe Enumerable do
     end
 
     xdescribe "#chunk" do
+      ## this is a monster of an Enum.  fill out when a use case is recognized for better understanding.
     end
 
     xdescribe "#chunk_while" do
+      ## this is a monster of an Enum. fill out when a use case is recognized for better understanding.
     end
 
     xdescribe "#collect" do
