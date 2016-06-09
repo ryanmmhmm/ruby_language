@@ -273,10 +273,10 @@ RSpec.describe Enumerable do
     xdescribe "#each_entry" do
     end
 
-    xdescribe "#each_entry" do
+    xdescribe "#each_slice" do
     end
 
-    xdescribe "#each_slice" do
+    xdescribe "#each_with_index" do
     end
 
     xdescribe "#each_with_object" do
@@ -286,6 +286,7 @@ RSpec.describe Enumerable do
     end
 
     xdescribe "#find" do
+      # alias for detect, see Enumerable#detect in this file.
     end
 
     xdescribe "#find_all" do
@@ -319,15 +320,6 @@ RSpec.describe Enumerable do
     end
 
     xdescribe "#map" do
-    end
-
-    xdescribe "#max" do
-    end
-
-    xdescribe "#max_by" do
-    end
-
-    xdescribe "#member?" do
     end
 
     xdescribe "#max" do
