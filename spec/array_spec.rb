@@ -267,6 +267,11 @@ RSpec.describe Array do
         string_array = %W(foo bar baz)
         expect(string_array).to eq(["foo", "bar", "baz"])
       end
+
+      it "both %W and %w are accepted" do
+        string_array = %w(foo bar baz)
+        expect(string_array).to eq(["foo", "bar", "baz"])
+      end
     end
   end
 end
