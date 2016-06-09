@@ -121,7 +121,38 @@ RSpec.describe Enumerable do
       end
     end
 
-    xdescribe "#count" do
+    describe "#count" do
+      it "returns the number of items in emum" do
+        five_things = [1,2,3,4,5]
+
+        counted = five_things.count
+
+        expect(counted).to eq(5)
+      end
+
+      it "returns the number of items in enum that match the argument in the block" do
+        five_things = [1,2,3,4,5]
+
+        even_things = five_things.count { |num| num.even? }
+
+        expect(even_things).to eq(2)
+      end
+
+      it "returns the number of items in enum matching item provided" do
+        five_things = [5,5,5,5,5]
+
+        no_of_fives = five_things.count(5)
+
+        expect(no_of_fives).to eq(5)
+      end
+
+      it "returns zero if there is no item match" do
+        all_fives = [5,5,5,5,5]
+
+        no_of_sixes = all_fives.count(6)
+
+        expect(no_of_sixes).to eq(0)
+      end
     end
 
     xdescribe "#cycle" do
