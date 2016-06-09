@@ -94,7 +94,7 @@ RSpec.describe Enumerable do
       end
     end
 
-    xdescribe "#collect_count" do
+    xdescribe "#collect_concat" do
     end
 
     xdescribe "#count" do
