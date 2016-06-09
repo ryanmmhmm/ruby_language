@@ -318,6 +318,7 @@ RSpec.describe Enumerable do
     end
 
     xdescribe "#entries" do
+      # alias for #to_a
     end
 
     xdescribe "#find" do
