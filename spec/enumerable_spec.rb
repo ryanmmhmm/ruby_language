@@ -274,7 +274,26 @@ RSpec.describe Enumerable do
     xdescribe "#each_slice" do
     end
 
-    xdescribe "#each_with_index" do
+    describe "#each_with_index" do
+      it "tracks the index with each enumeration" do
+        index_array = [0,1,2,3,4]
+
+        pointless_hash = {}
+        index_array.each_with_index { |n, i| pointless_hash[n] = i }
+
+        expect(pointless_hash[0]).to eq(0)
+        expect(pointless_hash[4]).to eq(4)
+        expect(pointless_hash[5]).to be nil
+      end
+
+      it "returns an Enumerator object when no block is supplied" do
+        index_array = [0,1,2,3,4]
+
+        pointless_hash = {}
+        what_am_i = index_array.each_with_index
+
+        expect(what_am_i).to be_a(Enumerator)
+      end
     end
 
     describe "#each_with_object" do
