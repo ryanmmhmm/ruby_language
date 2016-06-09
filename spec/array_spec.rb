@@ -257,7 +257,16 @@ RSpec.describe Array do
     xdescribe "#zip" do
     end
 
-    xdescribe "["ary1"] | ["ary2"] (Set Union)" do
+    xdescribe "['ary1'] | ['ary2'] (Set Union)" do
+    end
+  end
+
+  context "other" do
+    describe "%W(foo bar baz) syntactic sugar" do
+      it "creates an array from values of strings" do
+        string_array = %W(foo bar baz)
+        expect(string_array).to eq(["foo", "bar", "baz"])
+      end
     end
   end
 end
