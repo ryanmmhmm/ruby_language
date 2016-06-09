@@ -42,7 +42,22 @@ RSpec.describe Enumerable do
       end
     end
 
-    xdescribe "#any?" do
+    describe "#any?" do
+      it "inverse of #all?, returns true for any inputs that meet the critera of the block" do
+        inputs = [Array.new, Hash.new, 1, 1.0, true]
+
+        enum_any = inputs.any? { |i| i == true }
+
+        expect(enum_any).to be true
+      end
+
+      it "returns false if no values make the block return true" do
+        inputs = [false, nil, true]
+
+        enum_any = inputs.any? { |i| i == true }
+
+        expect(enum_any).to be true
+      end
     end
 
     xdescribe "#chunk" do
