@@ -2056,6 +2056,15 @@ RSpec.describe RubyString do
         expect(conversion).to be_a(Integer)
         expect(conversion).to eq(0)
       end
+
+      it "will convert string-integer values at the beginning of a string" do
+        number_string = "1234string"
+
+        conversion = number_string.to_i
+
+        expect(conversion).to be_a(Integer)
+        expect(conversion).to eq(1234)
+      end
     end
 
     describe "String#to_r" do
