@@ -237,7 +237,35 @@ RSpec.describe Hash do
       end
     end
 
-    xdescribe "#assoc()" do
+    describe "#assoc()" do
+      it "uses object and searches through the keys of the hash looking for a match using the == operator" do
+        hash = { "a" => 1, "b" => 2, "c" => 3 }
+        matcher = "a"
+
+        association = hash.assoc(matcher)
+
+        expect(association).to be_a(Array)
+        expect(association).to eq(["a", 1])
+      end
+
+      it "returns the key and the value(s) associated with it in a two part array" do
+        hash = { "a" => [1, 2, 3], "b" => [2, 3, 4], "c" => [3, 4, 5] }
+        matcher = "b"
+
+        association = hash.assoc(matcher)
+
+        expect(association).to be_a(Array)
+        expect(association).to eq( ["b", [2, 3, 4]] )
+      end
+
+      it "returns nil if there is no match" do
+        hash = { "a" => 1, "b" => 2, "c" => 3 }
+        matcher = "z"
+
+        association = hash.assoc(matcher)
+
+        expect(association).to be nil
+      end
     end
 
     xdescribe "#clear" do
