@@ -67,6 +67,13 @@ RSpec.describe Hash do
 
         expect(evaluate).to be false
       end
+
+      it "raises an error if there is no conversion of object into a hash" do
+        not_a_hash = "not a hash"
+        hash = { a: 1, b: 2 }
+
+        expect{ hash < not_a_hash }.to raise_error(TypeError, /(no implicit conversion of)|(into Hash)/)
+      end
     end
 
     describe " <= " do
@@ -95,6 +102,13 @@ RSpec.describe Hash do
         evaluate = hash1 <= hash2
 
         expect(evaluate).to be false
+      end
+
+      it "raises an error if there is no conversion of object into a hash" do
+        not_a_hash = "not a hash"
+        hash = { a: 1, b: 2 }
+
+        expect{ hash <= not_a_hash }.to raise_error(TypeError, /(no implicit conversion of)|(into Hash)/)
       end
     end
 
@@ -148,7 +162,32 @@ RSpec.describe Hash do
       end
     end
 
-    xdescribe " >= " do
+    describe " >= " do
+      it "returns true of the hash on the left is greater than or equal to the hash on the right" do
+        smaller = { a: 1, b: 2 }
+        bigger  = { a: 1, b: 2, c: 3}
+        same_as_bigger = { a: 1, b: 2, c: 3 }
+
+        evaluate = bigger >= same_as_bigger
+
+        expect(evaluate).to be true
+      end
+
+      it "returns false if not" do
+        smaller = { a: 1, b: 2 }
+        bigger  = { a: 1, b: 2, c: 3}
+
+        evaluate = smaller >= bigger
+
+        expect(evaluate).to be false
+      end
+
+      it "raises an error if there is no conversion of object into a hash" do
+        not_a_hash = "not a hash"
+        hash = { a: 1, b: 2 }
+
+        expect{ hash > not_a_hash }.to raise_error(TypeError, /(no implicit conversion of)|(into Hash)/)
+      end
     end
   end
 
