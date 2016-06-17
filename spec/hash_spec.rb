@@ -268,7 +268,15 @@ RSpec.describe Hash do
       end
     end
 
-    xdescribe "#clear" do
+    describe "#clear" do
+      it "removes all key-value pairs from the hash" do
+        hash = { "a" => 1, "b" => 2, "c" => 3 }
+
+        cleared_hash = hash.clear
+
+        expect(cleared_hash).to be_a(Hash)
+        expect(cleared_hash).to eq({})
+      end
     end
 
     xdescribe "#compare_by_identity" do
