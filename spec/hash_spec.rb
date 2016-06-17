@@ -39,7 +39,7 @@ RSpec.describe Hash do
     end
   end
 
-  context "Public Instance Methods" do
+  context "Operators" do
     describe " < " do
       it "returns true if the hash on the left is a subset of the hash on the right" do
         hash1 = {a:1, b:2}
@@ -106,7 +106,9 @@ RSpec.describe Hash do
 
     xdescribe " >= " do
     end
+  end
 
+  context "Public Instance Methods" do
     xdescribe "hsh[key]" do
     end
 
