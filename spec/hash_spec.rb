@@ -285,7 +285,22 @@ RSpec.describe Hash do
     xdescribe "#compare_by_identity?" do
     end
 
-    xdescribe "#default" do
+    describe "#default" do
+      it "this returns the default value of the hash" do
+        hash = Hash.new("default_value")  # Assigns default value
+
+        default_value = hash.default
+
+        expect(hash.default).to eq("default_value")
+      end
+
+      it "returns nil if there was no default value provided" do
+        hash = Hash.new   # No default value assigned
+
+        default_value = hash.default
+
+        expect(default_value).to be nil
+      end
     end
 
     xdescribe "#default = obj" do
