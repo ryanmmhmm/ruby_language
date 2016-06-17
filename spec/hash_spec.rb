@@ -3,10 +3,39 @@ RSpec.describe Hash do
     xdescribe "Hash[ ]" do
     end
 
-    xdescribe ".new" do
+    describe ".new" do
+      it "creates a new instance of Hash" do
+        hash = Hash.new
+
+        expect(hash).to be_a(Hash)
+      end
+
+      it "an object can be passed into Hash to set a default value, responds to any key" do
+        string_hash = Hash.new("hello")
+
+        expect(string_hash).to be_a(Hash)
+        expect(string_hash["a"]).to eq("hello")
+        expect(string_hash[:b]).to eq("hello")
+      end
+
+      it "accepts a block which can assign a value" do
+        block_hash = Hash.new { |hash, key| hash[key] = "this is what I am: '#{key}'" }
+
+        expect(block_hash).to be_a(Hash)
+        expect(block_hash["default_value"]).to eq("this is what I am: 'default_value'")
+      end
     end
 
-    xdescribe ".try_convert()" do
+    describe ".try_convert()" do
+      it "uses the #to_hash convert the given object into a Hash.  Returns nil if the object cannot be converted" do
+        integer_try = Hash.try_convert(123)
+        key_value_try = Hash.try_convert("hello": "how are you?")
+        string_try = Hash.try_convert("string")
+
+        expect(integer_try).to be nil
+        expect(key_value_try).to be_a(Hash)
+        expect(string_try).to be nil
+      end
     end
   end
 
