@@ -192,7 +192,20 @@ RSpec.describe Hash do
   end
 
   context "Public Instance Methods" do
-    xdescribe "hsh[key]" do
+    describe "hsh[key]" do
+      it "returns the assigned value of the key" do
+        hash = {}
+
+        hash[:key] = "value"
+
+        expect(hash[:key]).to eq("value")
+      end
+
+      it "returns nil if there is no assigned value" do
+        hash = {}
+
+        expect(hash[:key]).to be nil
+      end
     end
 
     xdescribe "hsh[key] = value" do
