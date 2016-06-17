@@ -40,10 +40,62 @@ RSpec.describe Hash do
   end
 
   context "Public Instance Methods" do
-    xdescribe " < " do
+    describe " < " do
+      it "returns true if the hash on the left is a subset of the hash on the right" do
+        hash1 = {a:1, b:2}
+        hash2 = {a:1, b:2, c:3}
+
+        evaluate = hash1 < hash2
+
+        expect(evaluate).to be true
+      end
+
+      it "returns false if not" do
+        hash1 = {a:1, b:2, c:3}
+        hash2 = {a:1, b:2}
+
+        evaluate = hash1 < hash2
+
+        expect(evaluate).to be false
+      end
+
+      it "returns false if they are equal" do
+        hash1 = {a:1, b:2, c:3}
+        hash2 = {a:1, b:2, c:3}
+
+        evaluate = hash1 < hash2
+
+        expect(evaluate).to be false
+      end
     end
 
-    xdescribe " <= " do
+    describe " <= " do
+      it "returns true if they are equal" do
+        hash1 = {a:1, b:2, c:3}
+        hash2 = {a:1, b:2, c:3}
+
+        evaluate = hash1 <= hash2
+
+        expect(evaluate).to be true
+      end
+
+      it "returns true if the hash on the left is a subset of the hash on the right" do
+        hash1 = {a:1, b:2}
+        hash2 = {a:1, b:2, c:3}
+
+        evaluate = hash1 <= hash2
+
+        expect(evaluate).to be true
+      end
+
+      it "returns false if not" do
+        hash1 = {a:1, b:2, c:3}
+        hash2 = {a:1, b:2}
+
+        evaluate = hash1 <= hash2
+
+        expect(evaluate).to be false
+      end
     end
 
     xdescribe " == " do
