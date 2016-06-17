@@ -219,7 +219,22 @@ RSpec.describe Hash do
       end
     end
 
-    xdescribe "#any?" do
+    describe "#any?" do
+      it "enumerates through the hash and returns true if a value is contained in the hash" do
+        hash = { a: 1, b: 2, c: 3 }
+
+        eval = hash.any?{ |k, v| k.to_s == "c" }
+
+        expect(eval).to be true
+      end
+
+      it "returns false if a value is NOT contained in the hash" do
+        hash = { a: 1, b: 2, c: 3 }
+
+        eval = hash.any?{ |k, v| k.to_s == "d" }
+
+        expect(eval).to be false
+      end
     end
 
     xdescribe "#assoc()" do
