@@ -98,7 +98,27 @@ RSpec.describe Hash do
       end
     end
 
-    xdescribe " == " do
+    describe " == " do
+      it "returns true if the two hashes are in equality" do
+        h1 = { a: 1, b: 2, c: 3 }
+        h2 = { a: 1, b: 2, c: 3 }
+
+        expect( h1 == h2 ).to be true
+      end
+
+      it "returns false if the two hashes are of equal length, but do not contain the same key value pairs" do
+        h2 = { a: 1, b: 2, c: 3 }
+        h3 = { a: 1, b: 2, c: 5 }
+
+        expect( h2 == h3 ).to be false
+      end
+
+      it "returns false if the two hashes are not of equal length" do
+        h3 = { a: 1, b: 2, c: 5 }
+        h4 = { a: 1, b: 2 }
+
+        expect( h3 == h4 ).to be false
+      end
     end
 
     xdescribe " > " do
