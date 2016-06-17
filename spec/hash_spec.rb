@@ -194,9 +194,7 @@ RSpec.describe Hash do
   context "Public Instance Methods" do
     describe "hsh[key]" do
       it "returns the assigned value of the key" do
-        hash = {}
-
-        hash[:key] = "value"
+        hash = { key: "value" }
 
         expect(hash[:key]).to eq("value")
       end
@@ -208,7 +206,17 @@ RSpec.describe Hash do
       end
     end
 
-    xdescribe "hsh[key] = value" do
+    describe "hsh[key] = value" do
+      it "assigns the provided key a value" do
+        hash = { }
+
+        hash[:key] = "value"
+
+        expect(hash[:key]).to eq("value")
+      end
+
+      xit "implicitly returns the value that was assigned" do
+      end
     end
 
     xdescribe "#any?" do
